@@ -9,6 +9,7 @@ import PublicRoute from './routes/PublicRoute';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { Sprout, ShoppingBag, GraduationCap, ChevronRight } from 'lucide-react';
+import { ThemeProvider } from './components/ui/theme/ThemeProvider';
 
 // Landing Page / Home Component
 const Home = () => {
@@ -249,8 +250,9 @@ const ExpertDashboard = () => {
 
 const App = () => {
   return (
-    <ToastProvider>
-      <AuthProvider>
+    <ThemeProvider>
+      <ToastProvider>
+        <AuthProvider>
         <Router>
           <Routes>
             <Route path="/" element={<Layout />}>
@@ -289,6 +291,7 @@ const App = () => {
         </Router>
       </AuthProvider>
     </ToastProvider>
+    </ThemeProvider>
   );
 };
 
