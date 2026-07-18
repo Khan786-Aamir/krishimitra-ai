@@ -10,6 +10,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { Sprout, ShoppingBag, GraduationCap, ChevronRight } from 'lucide-react';
 import { ThemeProvider } from './components/ui/theme/ThemeProvider';
+import LandingPage from './pages/LandingPage';
 
 // Landing Page / Home Component
 const Home = () => {
@@ -256,7 +257,7 @@ const App = () => {
         <Router>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
+              <Route index element={<LandingPage />} />
               
               {/* Public Authentications (restricted if user logged in) */}
               <Route element={<PublicRoute />}>
