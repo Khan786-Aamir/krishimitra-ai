@@ -24,7 +24,7 @@ api.interceptors.request.use(
 
 // Response Interceptor: Handle global errors (e.g. 401 Unauthorized token expirations)
 api.interceptors.response.use(
-  (response) => response.data,
+  (response) => response,
   (error) => {
     const errMessage = error.response?.data?.error?.message || error.message || 'Network error occurred';
     

@@ -1,11 +1,35 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { LogOut, LayoutDashboard } from 'lucide-react';
 
 const Layout = () => {
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
+
+  const getDashboardPath = () => {
+    if (!user) return '/';
+    switch (user.role) {
+      case 'Farmer':
+        return '/farmer';
+      case 'Buyer':
+        return '/buyer';
+      case 'Expert':
+        return '/expert';
+      default:
+        return '/';
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background-dark text-[#fafafa]">
       {/* Global Header Navigation */}
-      <header className="border-b border-border-dark bg-background-dark sticky top-0 z-40">
+      <header className="border-b border-border-dark bg-[#0B0F19]/80 backdrop-blur-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <Link to="/" className="text-xl font-bold tracking-tight font-display text-primary flex items-center space-x-2">
@@ -20,12 +44,36 @@ const Layout = () => {
           </div>
           
           <div className="flex items-center space-x-3 text-sm">
-            <Link to="/login" className="px-3 py-1.5 border border-border-dark rounded-md hover:bg-card-dark transition-colors font-medium">
-              Sign In
-            </Link>
-            <Link to="/register" className="px-3 py-1.5 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors font-medium">
-              Get Started
-            </Link>
+            {isAuthenticated ? (
+              <div className="flex items-center gap-3">
+                <span className="hidden sm:inline text-xs text-gray-400 font-medium">
+                  Welcome, <span className="text-white font-semibold">{user?.name}</span> ({user?.role})
+                </span>
+                <Link
+                  to={getDashboardPath()}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-card-dark border border-border-dark rounded-md hover:bg-border-dark transition-colors font-medium text-gray-300 hover:text-white"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  <span>Dashboard</span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-red-500/30 text-red-400 hover:bg-red-500/10 rounded-md transition-colors font-medium"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span className="hidden sm:inline">Sign Out</span>
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link to="/login" className="px-3 py-1.5 border border-border-dark rounded-md hover:bg-card-dark transition-colors font-medium">
+                  Sign In
+                </Link>
+                <Link to="/register" className="px-3 py-1.5 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors font-medium">
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>

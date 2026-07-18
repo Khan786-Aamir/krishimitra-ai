@@ -8,25 +8,28 @@ export default {
     extend: {
       colors: {
         background: {
-          dark: '#09090b',
+          dark: '#0B0F19',
           light: '#fafafa',
         },
         card: {
-          dark: '#18181b',
+          dark: '#111827',
           light: '#ffffff',
         },
         border: {
-          dark: '#27272a',
+          dark: '#1F2937',
           light: '#e4e4e7',
         },
         primary: {
-          DEFAULT: '#10b981', // Emerald
-          dark: '#059669',
+          DEFAULT: '#22C55E',
+          dark: '#16a34a',
         },
         secondary: {
           DEFAULT: '#6366f1', // Indigo
           dark: '#4f46e5',
         }
+      },
+      borderRadius: {
+        '2xl': '16px',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
