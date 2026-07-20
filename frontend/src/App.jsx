@@ -28,6 +28,21 @@ import {
   SettingsPage
 } from './dashboard/pages';
 
+// Import Buyer Dashboard components and layout
+import BuyerLayout from './buyer/layout/BuyerLayout';
+import {
+  BuyerHome,
+  BrowseCrops,
+  FarmersDirectory,
+  WishlistPage,
+  OrdersPage,
+  MarketPricesPage,
+  CommunityPreviewPage as BuyerCommunityPage,
+  BuyerAnalyticsPage,
+  BuyerProfilePage,
+  BuyerSettingsPage
+} from './buyer/pages';
+
 // Landing Page / Home Component
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -262,8 +277,21 @@ const App = () => {
                 <Route path="settings" element={<SettingsPage />} />
               </Route>
               
-              {/* Buyer & Expert Dashboards wrapped in public layout */}
-              <Route path="buyer" element={<Layout />}><Route index element={<BuyerDashboard />} /></Route>
+              {/* Buyer Dashboard with custom full-bleed layout */}
+              <Route path="buyer" element={<BuyerLayout />}>
+                <Route index element={<BuyerHome />} />
+                <Route path="browse" element={<BrowseCrops />} />
+                <Route path="farmers" element={<FarmersDirectory />} />
+                <Route path="wishlist" element={<WishlistPage />} />
+                <Route path="orders" element={<OrdersPage />} />
+                <Route path="market-prices" element={<MarketPricesPage />} />
+                <Route path="community" element={<BuyerCommunityPage />} />
+                <Route path="analytics" element={<BuyerAnalyticsPage />} />
+                <Route path="profile" element={<BuyerProfilePage />} />
+                <Route path="settings" element={<BuyerSettingsPage />} />
+              </Route>
+              
+              {/* Expert Dashboard wrapped in public layout */}
               <Route path="expert" element={<Layout />}><Route index element={<ExpertDashboard />} /></Route>
             </Route>
           </Routes>

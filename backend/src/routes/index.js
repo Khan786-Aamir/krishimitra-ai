@@ -16,6 +16,7 @@ router.get('/health', (req, res) => {
 // Route mount stubs (For future module development phases)
 router.use('/auth', require('./auth'));
 router.use('/farmer', require('./farmer'));
+router.use('/buyer', require('./buyer'));
 router.use('/weather', require('./weather'));
 router.use('/schemes', require('./schemes'));
 router.use('/notifications', require('./notifications'));
