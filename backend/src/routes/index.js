@@ -17,6 +17,7 @@ router.get('/health', (req, res) => {
 router.use('/auth', require('./auth'));
 router.use('/farmer', require('./farmer'));
 router.use('/buyer', require('./buyer'));
+router.use('/expert', require('./expert'));
 router.use('/weather', require('./weather'));
 router.use('/schemes', require('./schemes'));
 router.use('/notifications', require('./notifications'));

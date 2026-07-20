@@ -43,6 +43,21 @@ import {
   BuyerSettingsPage
 } from './buyer/pages';
 
+// Import Agriculture Expert Dashboard components and layout
+import ExpertLayout from './expert/layout/ExpertLayout';
+import {
+  ExpertHome,
+  AIDiagnosisReviewsPage,
+  ConsultationsPage,
+  AppointmentsPage,
+  FarmersDirectoryPage as ExpertFarmersPage,
+  KnowledgeHubPage,
+  CommunityPreviewPage as ExpertCommunityPage,
+  ExpertAnalyticsPage,
+  ExpertProfilePage,
+  ExpertSettingsPage
+} from './expert/pages';
+
 // Landing Page / Home Component
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -291,8 +306,19 @@ const App = () => {
                 <Route path="settings" element={<BuyerSettingsPage />} />
               </Route>
               
-              {/* Expert Dashboard wrapped in public layout */}
-              <Route path="expert" element={<Layout />}><Route index element={<ExpertDashboard />} /></Route>
+              {/* Expert Dashboard with custom full-bleed layout */}
+              <Route path="expert" element={<ExpertLayout />}>
+                <Route index element={<ExpertHome />} />
+                <Route path="reviews" element={<AIDiagnosisReviewsPage />} />
+                <Route path="consultations" element={<ConsultationsPage />} />
+                <Route path="appointments" element={<AppointmentsPage />} />
+                <Route path="farmers" element={<ExpertFarmersPage />} />
+                <Route path="knowledge-hub" element={<KnowledgeHubPage />} />
+                <Route path="community" element={<ExpertCommunityPage />} />
+                <Route path="analytics" element={<ExpertAnalyticsPage />} />
+                <Route path="profile" element={<ExpertProfilePage />} />
+                <Route path="settings" element={<ExpertSettingsPage />} />
+              </Route>
             </Route>
           </Routes>
         </Router>

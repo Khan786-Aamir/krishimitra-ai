@@ -1,0 +1,10 @@
+export { default as ExpertHome } from './ExpertHome';
+export { default as AIDiagnosisReviewsPage } from './AIDiagnosisReviewsPage';
+export { default as ConsultationsPage } from './ConsultationsPage';
+export { default as AppointmentsPage } from './AppointmentsPage';
+export { default as FarmersDirectoryPage } from './FarmersDirectoryPage';
+export { default as KnowledgeHubPage } from './KnowledgeHubPage';
+export { default as CommunityPreviewPage } from './CommunityPreviewPage';
+export { default as ExpertAnalyticsPage } from './ExpertAnalyticsPage';
+export { default as ExpertProfilePage } from './ExpertProfilePage';
+export { default as ExpertSettingsPage } from './ExpertSettingsPage';
