@@ -12,6 +12,22 @@ import { Sprout, ShoppingBag, GraduationCap, ChevronRight } from 'lucide-react';
 import { ThemeProvider } from './components/ui/theme/ThemeProvider';
 import LandingPage from './pages/LandingPage';
 
+// Import Farmer Dashboard components and layout
+import DashboardLayout from './dashboard/layout/DashboardLayout';
+import {
+  DashboardHome,
+  MyCrops,
+  AIDiseasePreview,
+  MarketplacePreview,
+  EquipmentRentalPreview,
+  CommunityPreview,
+  AnalyticsPage,
+  WeatherPage,
+  SchemesPage,
+  FarmerProfilePage,
+  SettingsPage
+} from './dashboard/pages';
+
 // Landing Page / Home Component
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -81,61 +97,7 @@ const Home = () => {
   );
 };
 
-// Farmer Dashboard Placeholder
-const FarmerDashboard = () => {
-  const { user, logout } = useAuth();
-  return (
-    <div className="flex-1 p-8 max-w-5xl mx-auto w-full">
-      <div className="bg-card-dark border border-border-dark p-8 rounded-2xl shadow-xl space-y-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-border-dark">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary/10 text-primary border border-primary/20 rounded-2xl">
-              <Sprout className="w-8 h-8" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-extrabold text-white tracking-tight font-display">Farmer Portal</h1>
-              <p className="text-gray-400 mt-1">Welcome back, <span className="text-white font-medium">{user?.name}</span></p>
-            </div>
-          </div>
-          <span className="px-3.5 py-1.5 bg-emerald-500/10 text-emerald-400 text-sm font-semibold rounded-full border border-emerald-500/20">
-            Role: Farmer
-          </span>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 bg-background-dark/50 border border-border-dark rounded-2xl space-y-2">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500">Registered Phone</h3>
-            <p className="text-lg font-bold text-white">{user?.phone || 'Not provided'}</p>
-          </div>
-          <div className="p-6 bg-background-dark/50 border border-border-dark rounded-2xl space-y-2">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500">Security Access</h3>
-            <p className="text-lg font-bold text-white">Authorized Client</p>
-          </div>
-          <div className="p-6 bg-background-dark/50 border border-border-dark rounded-2xl space-y-2">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500">Verification Status</h3>
-            <p className="text-lg font-bold text-primary">Email Verified</p>
-          </div>
-        </div>
-
-        <div className="p-6 bg-primary/5 border border-primary/15 rounded-2xl space-y-2">
-          <h2 className="text-lg font-bold text-white">Diagnostics & Lease Portals</h2>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            Your farmer profile is successfully configured. Real-time Gemini-based advice, weather alerts, and direct equipment rentals are scheduled for subsequent phases.
-          </p>
-        </div>
-        
-        <div className="flex gap-4">
-          <button 
-            onClick={logout}
-            className="px-4 py-2 bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl hover:bg-red-500/20 transition-all text-sm font-medium"
-          >
-            Sign Out Session
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
+// Farmer Dashboard is now fully routed through src/dashboard/ layout and pages.
 
 // Buyer Dashboard Placeholder
 const BuyerDashboard = () => {
@@ -256,6 +218,7 @@ const App = () => {
         <AuthProvider>
         <Router>
           <Routes>
+            {/* Public Layout Routes */}
             <Route path="/" element={<Layout />}>
               <Route index element={<LandingPage />} />
               
@@ -265,14 +228,7 @@ const App = () => {
                 <Route path="register" element={<Register />} />
                 <Route path="forgot-password" element={<ForgotPassword />} />
               </Route>
-              
-              {/* Protected Dashboards (restricted if user logged out) */}
-              <Route element={<ProtectedRoute />}>
-                <Route path="farmer" element={<FarmerDashboard />} />
-                <Route path="buyer" element={<BuyerDashboard />} />
-                <Route path="expert" element={<ExpertDashboard />} />
-              </Route>
-              
+
               {/* Fallback Catch-all Route */}
               <Route path="*" element={
                 <div className="flex-1 flex items-center justify-center p-6 bg-background-dark text-center">
@@ -287,6 +243,28 @@ const App = () => {
                   </div>
                 </div>
               } />
+            </Route>
+
+            {/* Protected Dashboards (restricted if user logged out) */}
+            <Route element={<ProtectedRoute />}>
+              {/* Farmer Dashboard with custom full-bleed layout */}
+              <Route path="farmer" element={<DashboardLayout />}>
+                <Route index element={<DashboardHome />} />
+                <Route path="crops" element={<MyCrops />} />
+                <Route path="ai" element={<AIDiseasePreview />} />
+                <Route path="marketplace" element={<MarketplacePreview />} />
+                <Route path="equipment" element={<EquipmentRentalPreview />} />
+                <Route path="weather" element={<WeatherPage />} />
+                <Route path="schemes" element={<SchemesPage />} />
+                <Route path="community" element={<CommunityPreview />} />
+                <Route path="analytics" element={<AnalyticsPage />} />
+                <Route path="profile" element={<FarmerProfilePage />} />
+                <Route path="settings" element={<SettingsPage />} />
+              </Route>
+              
+              {/* Buyer & Expert Dashboards wrapped in public layout */}
+              <Route path="buyer" element={<Layout />}><Route index element={<BuyerDashboard />} /></Route>
+              <Route path="expert" element={<Layout />}><Route index element={<ExpertDashboard />} /></Route>
             </Route>
           </Routes>
         </Router>
