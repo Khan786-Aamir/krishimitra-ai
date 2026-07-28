@@ -11,6 +11,22 @@ import { ToastProvider } from './context/ToastContext';
 import { Sprout, ShoppingBag, GraduationCap, ChevronRight } from 'lucide-react';
 import { ThemeProvider } from './components/ui/theme/ThemeProvider';
 import LandingPage from './pages/LandingPage';
+import AdminLayout from './admin/layout/AdminLayout';
+import {
+  AdminHome,
+  AdminUsers,
+  AdminFarmers,
+  AdminBuyers,
+  AdminExperts,
+  AdminMarketplace,
+  AdminEquipment,
+  AdminSchemes,
+  AdminAIReports,
+  AdminCommunity,
+  AdminAnalytics,
+  AdminProfilePage,
+  AdminSettings
+} from './admin/pages';
 
 // Import Farmer Dashboard components and layout
 import DashboardLayout from './dashboard/layout/DashboardLayout';
@@ -68,6 +84,7 @@ const Home = () => {
       case 'Farmer': return '/farmer';
       case 'Buyer': return '/buyer';
       case 'Expert': return '/expert';
+      case 'Admin': return '/admin';
       default: return '/';
     }
   };
@@ -318,6 +335,23 @@ const App = () => {
                 <Route path="analytics" element={<ExpertAnalyticsPage />} />
                 <Route path="profile" element={<ExpertProfilePage />} />
                 <Route path="settings" element={<ExpertSettingsPage />} />
+              </Route>
+              
+              {/* Admin Dashboard with custom full-bleed layout */}
+              <Route path="admin" element={<AdminLayout />}>
+                <Route index element={<AdminHome />} />
+                <Route path="users" element={<AdminUsers />} />
+                <Route path="farmers" element={<AdminFarmers />} />
+                <Route path="buyers" element={<AdminBuyers />} />
+                <Route path="experts" element={<AdminExperts />} />
+                <Route path="marketplace" element={<AdminMarketplace />} />
+                <Route path="equipment" element={<AdminEquipment />} />
+                <Route path="schemes" element={<AdminSchemes />} />
+                <Route path="ai" element={<AdminAIReports />} />
+                <Route path="community" element={<AdminCommunity />} />
+                <Route path="analytics" element={<AdminAnalytics />} />
+                <Route path="profile" element={<AdminProfilePage />} />
+                <Route path="settings" element={<AdminSettings />} />
               </Route>
             </Route>
           </Routes>

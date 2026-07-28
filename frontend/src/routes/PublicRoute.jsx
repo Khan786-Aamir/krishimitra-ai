@@ -13,6 +13,8 @@ const PublicRoute = () => {
         return '/buyer';
       case 'Expert':
         return '/expert';
+      case 'Admin':
+        return '/admin';
       default:
         return '/';
     }
