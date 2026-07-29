@@ -23,5 +23,6 @@ router.use('/schemes', require('./schemes'));
 router.use('/notifications', require('./notifications'));
 router.use('/admin', require('./admin'));
 router.use('/marketplace', require('./marketplace'));
+router.use('/equipment', require('./equipment'));
 
 module.exports = router;

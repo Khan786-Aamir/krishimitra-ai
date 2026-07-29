@@ -8,6 +8,8 @@ const DiagnosisReview = require('../models/DiagnosisReview');
 const Scheme = require('../models/Scheme');
 const AdminProfile = require('../models/AdminProfile');
 const MarketplaceListing = require('../models/MarketplaceListing');
+const Equipment = require('../models/Equipment');
+const RentalRequest = require('../models/RentalRequest');
 const ErrorResponse = require('../utils/ErrorResponse');
 const asyncHandler = require('../utils/asyncHandler');
 
@@ -398,9 +400,30 @@ exports.verifyProduct = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/admin/equipment
 // @access  Private/Admin
 exports.getEquipment = asyncHandler(async (req, res, next) => {
+  const equipmentList = await Equipment.find().populate('owner', 'name email phone');
+  
+  const mappedList = equipmentList.map(item => ({
+    id: item._id,
+    name: item.equipmentName,
+    owner: item.owner ? item.owner.name : 'Unknown',
+    ownerId: item.owner ? item.owner._id : null,
+    price: `₹${item.rentalPricePerDay.toLocaleString()}/day`,
+    rentalPricePerDay: item.rentalPricePerDay,
+    securityDeposit: item.securityDeposit,
+    availability: item.availabilityStatus,
+    status: item.status,
+    isActive: item.isActive,
+    isReported: item.isReported,
+    reportedReason: item.reportedReason || '',
+    requests: item.bookingCount || 0,
+    category: item.category,
+    views: item.views || 0,
+    condition: item.condition
+  }));
+
   res.status(200).json({
     success: true,
-    data: localEquipmentRentals
+    data: mappedList
   });
 });
 
@@ -408,14 +431,36 @@ exports.getEquipment = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/v1/admin/equipment/:id/verify
 // @access  Private/Admin
 exports.verifyRental = asyncHandler(async (req, res, next) => {
-  const { status } = req.body;
-  const index = localEquipmentRentals.findIndex(item => item.id === req.params.id);
-  if (index !== -1) {
-    localEquipmentRentals[index].status = status;
+  const { status, isActive, isReported, reportedReason } = req.body;
+  const equipment = await Equipment.findById(req.params.id);
+  
+  if (!equipment) {
+    return next(new ErrorResponse('Equipment listing not found', 404));
   }
+
+  if (status !== undefined) {
+    equipment.status = status;
+    equipment.isApproved = (status === 'Approved');
+  }
+
+  if (isActive !== undefined) {
+    equipment.isActive = isActive;
+  }
+
+  if (isReported !== undefined) {
+    equipment.isReported = isReported;
+    if (isReported && reportedReason) {
+      equipment.reportedReason = reportedReason;
+    } else if (!isReported) {
+      equipment.reportedReason = '';
+    }
+  }
+
+  await equipment.save();
+
   res.status(200).json({
     success: true,
-    message: `Equipment status updated to ${status}`
+    message: `Equipment status updated to ${status || equipment.status}`
   });
 });
 

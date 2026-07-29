@@ -41,6 +41,21 @@ import {
   ProductDetailsPage
 } from './marketplace/pages';
 
+import RentalsLayout from './rentals/layout/RentalsLayout';
+import {
+  EquipmentHome,
+  BrowseEquipment,
+  EquipmentCategories,
+  EquipmentDetails,
+  MyEquipment,
+  AddEquipment,
+  EditEquipment,
+  RentalRequests,
+  MyRentals,
+  SavedEquipment,
+  OwnerDashboard
+} from './rentals/pages';
+
 // Import Farmer Dashboard components and layout
 import DashboardLayout from './dashboard/layout/DashboardLayout';
 import {
@@ -313,7 +328,7 @@ const App = () => {
                 <Route path="crops" element={<MyCrops />} />
                 <Route path="ai" element={<AIDiseasePreview />} />
                 <Route path="marketplace" element={<Navigate to="/marketplace" replace />} />
-                <Route path="equipment" element={<EquipmentRentalPreview />} />
+                <Route path="equipment" element={<Navigate to="/rentals" replace />} />
                 <Route path="weather" element={<WeatherPage />} />
                 <Route path="schemes" element={<SchemesPage />} />
                 <Route path="community" element={<CommunityPreview />} />
@@ -378,6 +393,21 @@ const App = () => {
                 <Route path="recently-viewed" element={<RecentlyViewed />} />
                 <Route path="saved-searches" element={<SavedSearches />} />
                 <Route path="listings/:id" element={<ProductDetailsPage />} />
+              </Route>
+
+              {/* Equipment Rentals Dashboard with custom full-bleed layout */}
+              <Route path="rentals" element={<RentalsLayout />}>
+                <Route index element={<EquipmentHome />} />
+                <Route path="browse" element={<BrowseEquipment />} />
+                <Route path="categories" element={<EquipmentCategories />} />
+                <Route path="listings/:id" element={<EquipmentDetails />} />
+                <Route path="my-equipment" element={<MyEquipment />} />
+                <Route path="add-equipment" element={<AddEquipment />} />
+                <Route path="edit-equipment/:id" element={<EditEquipment />} />
+                <Route path="requests" element={<RentalRequests />} />
+                <Route path="my-rentals" element={<MyRentals />} />
+                <Route path="saved" element={<SavedEquipment />} />
+                <Route path="owner-dashboard" element={<OwnerDashboard />} />
               </Route>
             </Route>
           </Routes>
