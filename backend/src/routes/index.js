@@ -22,5 +22,6 @@ router.use('/weather', require('./weather'));
 router.use('/schemes', require('./schemes'));
 router.use('/notifications', require('./notifications'));
 router.use('/admin', require('./admin'));
+router.use('/marketplace', require('./marketplace'));
 
 module.exports = router;

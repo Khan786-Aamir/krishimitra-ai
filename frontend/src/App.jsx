@@ -28,6 +28,19 @@ import {
   AdminSettings
 } from './admin/pages';
 
+import MarketplaceLayout from './marketplace/layout/MarketplaceLayout';
+import {
+  MarketplaceHome,
+  BrowseCrops as MarketBrowseCrops,
+  BrowseCategories,
+  MyListings,
+  BuyerInquiries,
+  WishlistPage as MarketWishlistPage,
+  RecentlyViewed,
+  SavedSearches,
+  ProductDetailsPage
+} from './marketplace/pages';
+
 // Import Farmer Dashboard components and layout
 import DashboardLayout from './dashboard/layout/DashboardLayout';
 import {
@@ -294,12 +307,12 @@ const App = () => {
 
             {/* Protected Dashboards (restricted if user logged out) */}
             <Route element={<ProtectedRoute />}>
-              {/* Farmer Dashboard with custom full-bleed layout */}
+      {/* Farmer Dashboard with custom full-bleed layout */}
               <Route path="farmer" element={<DashboardLayout />}>
                 <Route index element={<DashboardHome />} />
                 <Route path="crops" element={<MyCrops />} />
                 <Route path="ai" element={<AIDiseasePreview />} />
-                <Route path="marketplace" element={<MarketplacePreview />} />
+                <Route path="marketplace" element={<Navigate to="/marketplace" replace />} />
                 <Route path="equipment" element={<EquipmentRentalPreview />} />
                 <Route path="weather" element={<WeatherPage />} />
                 <Route path="schemes" element={<SchemesPage />} />
@@ -312,9 +325,9 @@ const App = () => {
               {/* Buyer Dashboard with custom full-bleed layout */}
               <Route path="buyer" element={<BuyerLayout />}>
                 <Route index element={<BuyerHome />} />
-                <Route path="browse" element={<BrowseCrops />} />
+                <Route path="browse" element={<Navigate to="/marketplace/browse" replace />} />
                 <Route path="farmers" element={<FarmersDirectory />} />
-                <Route path="wishlist" element={<WishlistPage />} />
+                <Route path="wishlist" element={<Navigate to="/marketplace/wishlist" replace />} />
                 <Route path="orders" element={<OrdersPage />} />
                 <Route path="market-prices" element={<MarketPricesPage />} />
                 <Route path="community" element={<BuyerCommunityPage />} />
@@ -352,6 +365,19 @@ const App = () => {
                 <Route path="analytics" element={<AdminAnalytics />} />
                 <Route path="profile" element={<AdminProfilePage />} />
                 <Route path="settings" element={<AdminSettings />} />
+              </Route>
+
+              {/* Marketplace Dashboard with custom full-bleed layout */}
+              <Route path="marketplace" element={<MarketplaceLayout />}>
+                <Route index element={<MarketplaceHome />} />
+                <Route path="browse" element={<MarketBrowseCrops />} />
+                <Route path="categories" element={<BrowseCategories />} />
+                <Route path="my-listings" element={<MyListings />} />
+                <Route path="inquiries" element={<BuyerInquiries />} />
+                <Route path="wishlist" element={<MarketWishlistPage />} />
+                <Route path="recently-viewed" element={<RecentlyViewed />} />
+                <Route path="saved-searches" element={<SavedSearches />} />
+                <Route path="listings/:id" element={<ProductDetailsPage />} />
               </Route>
             </Route>
           </Routes>

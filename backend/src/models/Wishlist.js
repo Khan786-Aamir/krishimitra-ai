@@ -12,6 +12,10 @@ const WishlistSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Crop'
     },
+    listing: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'MarketplaceListing'
+    },
     // Fallback metadata in case crop is external or custom dummy
     cropData: {
       name: { type: String, required: true },

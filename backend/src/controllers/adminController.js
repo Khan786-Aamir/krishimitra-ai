@@ -7,6 +7,7 @@ const Consultation = require('../models/Consultation');
 const DiagnosisReview = require('../models/DiagnosisReview');
 const Scheme = require('../models/Scheme');
 const AdminProfile = require('../models/AdminProfile');
+const MarketplaceListing = require('../models/MarketplaceListing');
 const ErrorResponse = require('../utils/ErrorResponse');
 const asyncHandler = require('../utils/asyncHandler');
 
@@ -353,29 +354,25 @@ exports.verifyExpert = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/admin/marketplace
 // @access  Private/Admin
 exports.getMarketplace = asyncHandler(async (req, res, next) => {
-  // Crop is used to represent listings. Since Crop doesn't have an explicit verification field, we simulated it or query all crops
-  const crops = await Crop.find().populate('farmer');
+  const listings = await MarketplaceListing.find().populate('farmer');
   
-  // Map crops to marketplace listings
-  const listings = crops.map((c, index) => {
-    // Determine simulated status based on index if status field is missing
-    const status = index % 3 === 0 ? 'Pending' : (index % 3 === 1 ? 'Approved' : 'Rejected');
+  const mappedListings = listings.map((l) => {
     return {
-      id: c._id,
-      name: c.name,
-      farmerName: c.farmer ? c.farmer.name : 'Unknown Farmer',
-      location: c.notes || 'Khanna, Punjab',
-      quantity: `${c.area} Acres (Yield)`,
-      price: `₹${c.progress * 50}`, // Simulated pricing
-      stage: c.growthStage,
-      status: status,
-      image: c.image || 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=600'
+      id: l._id,
+      name: l.name,
+      farmerName: l.farmer ? l.farmer.name : 'Unknown Farmer',
+      location: l.location || 'Not Specified',
+      quantity: `${l.availableQuantity} ${l.unit}`,
+      price: `₹${l.price.toLocaleString()}`,
+      stage: l.isOrganic ? 'Organic' : 'Standard',
+      status: l.status,
+      image: l.images && l.images.length > 0 ? l.images[0].url : 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=600'
     };
   });
 
   res.status(200).json({
     success: true,
-    data: listings
+    data: mappedListings
   });
 });
 
@@ -383,8 +380,14 @@ exports.getMarketplace = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/v1/admin/marketplace/:id/verify
 // @access  Private/Admin
 exports.verifyProduct = asyncHandler(async (req, res, next) => {
-  // Simulated action
   const { status } = req.body;
+  const listing = await MarketplaceListing.findById(req.params.id);
+  if (!listing) {
+    return next(new ErrorResponse('Marketplace listing not found', 404));
+  }
+  listing.status = status;
+  await listing.save();
+
   res.status(200).json({
     success: true,
     message: `Crop product listing ${status} successfully`

@@ -2,23 +2,22 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  LayoutDashboard,
+  Home,
   Search,
-  Users,
+  Grid,
+  FilePlus2,
+  Inbox,
   Heart,
-  ShoppingBag,
-  TrendingUp,
-  MessageSquare,
-  BarChart3,
-  User,
-  Settings,
-  LogOut,
+  History,
+  Bookmark,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  LogOut,
+  LayoutDashboard
 } from 'lucide-react';
 import { Logo } from '../../components/ui';
 
-export const BuyerSidebar = ({
+export const Sidebar = ({
   user,
   onLogout,
   isCollapsed,
@@ -27,17 +26,20 @@ export const BuyerSidebar = ({
 }) => {
   const location = useLocation();
 
+  // Conditional rendering based on role. Farmer is seller, Buyer is procurer
+  const isFarmer = user?.role === 'Farmer';
+
   const menuItems = [
-    { label: 'Dashboard', to: '/buyer', icon: <LayoutDashboard className="w-5 h-5" /> },
+    { label: 'Marketplace Home', to: '/marketplace', icon: <Home className="w-5 h-5" /> },
     { label: 'Browse Crops', to: '/marketplace/browse', icon: <Search className="w-5 h-5" /> },
-    { label: 'Farmers', to: '/buyer/farmers', icon: <Users className="w-5 h-5" /> },
+    { label: 'Categories', to: '/marketplace/categories', icon: <Grid className="w-5 h-5" /> },
+    ...(isFarmer ? [
+      { label: 'My Listings', to: '/marketplace/my-listings', icon: <FilePlus2 className="w-5 h-5" /> }
+    ] : []),
+    { label: 'Buyer Inquiries', to: '/marketplace/inquiries', icon: <Inbox className="w-5 h-5" /> },
     { label: 'Wishlist', to: '/marketplace/wishlist', icon: <Heart className="w-5 h-5" /> },
-    { label: 'Orders', to: '/buyer/orders', icon: <ShoppingBag className="w-5 h-5" /> },
-    { label: 'Market Prices', to: '/buyer/market-prices', icon: <TrendingUp className="w-5 h-5" /> },
-    { label: 'Community', to: '/buyer/community', icon: <MessageSquare className="w-5 h-5" /> },
-    { label: 'Analytics', to: '/buyer/analytics', icon: <BarChart3 className="w-5 h-5" /> },
-    { label: 'Profile', to: '/buyer/profile', icon: <User className="w-5 h-5" /> },
-    { label: 'Settings', to: '/buyer/settings', icon: <Settings className="w-5 h-5" /> }
+    { label: 'Recently Viewed', to: '/marketplace/recently-viewed', icon: <History className="w-5 h-5" /> },
+    { label: 'Saved Searches', to: '/marketplace/saved-searches', icon: <Bookmark className="w-5 h-5" /> }
   ];
 
   return (
@@ -51,6 +53,9 @@ export const BuyerSidebar = ({
         {!isCollapsed ? (
           <div className="flex items-center gap-2">
             <Logo variant="compact" size="sm" />
+            <span className="text-[10px] uppercase font-extrabold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-md font-sans">
+              B2B Shop
+            </span>
           </div>
         ) : (
           <div className="mx-auto">
@@ -70,8 +75,8 @@ export const BuyerSidebar = ({
         <ul className="space-y-1">
           {menuItems.map((item, idx) => {
             const isActive =
-              item.to === '/buyer'
-                ? location.pathname === '/buyer'
+              item.to === '/marketplace'
+                ? location.pathname === '/marketplace'
                 : location.pathname.startsWith(item.to);
 
             return (
@@ -80,7 +85,7 @@ export const BuyerSidebar = ({
                   to={item.to}
                   className={`flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-sm font-semibold transition-all relative z-10 ${
                     isActive
-                      ? 'text-indigo-400 font-bold'
+                      ? 'text-primary font-bold'
                       : 'text-text/60 hover:text-text hover:bg-surface/50'
                   }`}
                   title={isCollapsed ? item.label : undefined}
@@ -90,8 +95,8 @@ export const BuyerSidebar = ({
 
                   {isActive && (
                     <motion.div
-                      layoutId="buyerActiveIndicator"
-                      className="absolute inset-0 bg-indigo-500/10 border-l-2 border-indigo-500 rounded-xl -z-10"
+                      layoutId="marketplaceActiveIndicator"
+                      className="absolute inset-0 bg-primary/10 border-l-2 border-primary rounded-xl -z-10"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -102,20 +107,34 @@ export const BuyerSidebar = ({
         </ul>
       </div>
 
-      {/* Footer / User Profile & Logout */}
-      <div className="p-4 border-t border-border bg-surface/30 shrink-0">
+      {/* Footer Exit Portal & User Profile */}
+      <div className="p-4 border-t border-border bg-surface/30 shrink-0 space-y-3">
+        {/* User Card */}
         {!isCollapsed && user && (
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-extrabold text-sm shrink-0">
-              {user.name ? user.name[0].toUpperCase() : 'B'}
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-extrabold text-sm shrink-0">
+              {user.name ? user.name[0].toUpperCase() : 'U'}
             </div>
             <div className="min-w-0">
               <p className="text-sm font-bold text-text truncate leading-tight">{user.name}</p>
-              <p className="text-xs text-indigo-400 font-medium truncate mt-0.5">Verified Buyer</p>
+              <p className="text-xs text-primary font-medium truncate mt-0.5">{user.role} Portal</p>
             </div>
           </div>
         )}
 
+        {/* Dashboard Shortcut link */}
+        <Link
+          to={user?.role === 'Farmer' ? '/farmer' : (user?.role === 'Buyer' ? '/buyer' : (user?.role === 'Expert' ? '/expert' : '/admin'))}
+          className={`w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-bold border border-border/80 hover:bg-surface text-text/70 transition-all cursor-pointer ${
+            isCollapsed ? 'justify-center px-0' : ''
+          }`}
+          title={isCollapsed ? 'Exit to Dashboard' : undefined}
+        >
+          <LayoutDashboard className="w-4 h-4 shrink-0 text-primary" />
+          {!isCollapsed && <span>Exit to Dashboard</span>}
+        </Link>
+
+        {/* Logout */}
         <button
           onClick={onLogout}
           className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold border border-red-500/10 hover:border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-red-400 transition-all cursor-pointer ${
@@ -131,4 +150,4 @@ export const BuyerSidebar = ({
   );
 };
 
-export default BuyerSidebar;
+export default Sidebar;
