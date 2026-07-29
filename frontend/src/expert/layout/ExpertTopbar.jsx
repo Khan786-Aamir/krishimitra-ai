@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LanguageSelector from '../../components/LanguageSelector';
 import {
   Menu,
   Search,
@@ -110,6 +111,7 @@ export const ExpertTopbar = ({ user, onLogout, onMenuClick }) => {
 
       {/* Right Action Icons & Profile */}
       <div className="flex items-center gap-2 sm:gap-3">
+        <LanguageSelector />
         {/* Dark Mode Toggle */}
         <button
           onClick={toggleTheme}

@@ -27,7 +27,8 @@ import {
   HelpCircle,
   Activity,
   Smile,
-  Shield
+  Shield,
+  MapPin
 } from 'lucide-react';
 import {
   Button,
@@ -39,6 +40,10 @@ import {
   Avatar,
   Badge
 } from '../components/ui';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
+import { useTranslation } from 'react-i18next';
+import publicService from '../services/publicService';
+import heroIllustration from '../assets/images/hero-illustration.png';
 
 // Count reveal animation when scrolled into view
 const AnimatedCounter = ({ value, suffix = '', duration = 1500 }) => {
@@ -47,13 +52,14 @@ const AnimatedCounter = ({ value, suffix = '', duration = 1500 }) => {
   const hasAnimated = useRef(false);
 
   useEffect(() => {
+    hasAnimated.current = false;
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !hasAnimated.current) {
           hasAnimated.current = true;
           let start = 0;
           const end = parseInt(value, 10);
-          if (isNaN(end)) return;
+          if (isNaN(end) || end === 0) return;
           const totalSteps = 60;
           const stepTime = duration / totalSteps;
           let step = 0;
@@ -89,6 +95,34 @@ const AnimatedCounter = ({ value, suffix = '', duration = 1500 }) => {
 };
 
 export const LandingPage = () => {
+  const { t } = useTranslation();
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalFarmers: 0,
+    totalBuyers: 0,
+    totalExperts: 0,
+    totalMarketplaceListings: 0,
+    pendingListings: 0,
+    approvedListings: 0,
+    rejectedListings: 0,
+    totalEquipment: 0,
+    totalDiagnosisReviews: 0
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await publicService.getStats();
+        if (res.success && res.data) {
+          setStats(res.data);
+        }
+      } catch (err) {
+        console.error('Failed to load live statistics:', err);
+      }
+    };
+    fetchStats();
+  }, []);
+
   // SEO optimization: update page header parameters on mount
   useEffect(() => {
     document.title = "KrishiMitra AI - Empowering Farmers with Artificial Intelligence";
@@ -141,178 +175,174 @@ export const LandingPage = () => {
       <div className="absolute bottom-[10%] left-[20%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Hero Section */}
-      <section className="relative pt-24 pb-20 md:pt-32 md:pb-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          
-          {/* Tag Line Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/25 text-primary text-xs font-bold uppercase tracking-wider mb-8"
-          >
-            <Zap className="w-3.5 h-3.5 animate-pulse" />
-            <span>Next-Generation Agriculture</span>
-          </motion.div>
-
-          {/* Large Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-4xl sm:text-5xl md:text-6.5xl font-extrabold tracking-tight font-display leading-[1.1] max-w-4.5xl mx-auto"
-          >
-            Empowering Farmers with <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-primary animate-pulse">
-              Artificial Intelligence
-            </span>
-          </motion.h1>
-
-          {/* Short Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-6 text-text-muted text-base sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed"
-          >
-            Gemini-powered crop diagnostics, direct peer-to-peer marketplace transactions, equipment leasing, and localized community expert advisory boards.
-          </motion.p>
-
-          {/* Hero CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.45 }}
-            className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <Button
-              as={Link}
-              to="/register"
-              variant="primary"
-              size="lg"
-              className="w-full sm:w-auto shadow-glow-primary shadow-lg"
-              rightIcon={<ArrowRight className="w-5 h-5" />}
-            >
-              Get Started Free
-            </Button>
-            <Button
-              as="a"
-              href="#features"
-              variant="outline"
-              size="lg"
-              className="w-full sm:w-auto hover:bg-surface/50 border-border"
-            >
-              Explore Platform
-            </Button>
-          </motion.div>
-
-          {/* Floating UI Demonstration Showcase */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-20 relative rounded-custom border border-border bg-card/25 backdrop-blur-md p-2.5 max-w-5xl mx-auto shadow-glass-lg"
-          >
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-accent/10 rounded-custom pointer-events-none" />
-            <div className="rounded-[12px] overflow-hidden bg-background/80 border border-border/50 aspect-[16/9] flex flex-col relative">
-              
-              {/* Inner Dashboard Wireframe Header */}
-              <div className="h-12 border-b border-border flex items-center justify-between px-4 bg-surface/30">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                  <div className="w-3 h-3 rounded-full bg-amber-500/50" />
-                  <div className="w-3 h-3 rounded-full bg-primary/50" />
-                </div>
-                <div className="w-1/3 h-5 bg-background rounded-lg border border-border flex items-center justify-center text-[10px] text-text-muted">
-                  app.krishimitra.ai/dashboard
-                </div>
-                <div className="w-5 h-5 rounded-full bg-surface" />
-              </div>
-
-              {/* Inner Dashboard Body Preview */}
-              <div className="flex-1 grid grid-cols-1 md:grid-cols-4 p-4 gap-4 text-left">
-                
-                {/* Column Left: Side Info */}
-                <div className="space-y-4">
-                  <div className="p-4 bg-card border border-border rounded-custom">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-text-muted">Active Diagnostic</p>
-                    <p className="text-sm font-bold mt-1 text-primary">Rice Leaf Blast Scanner</p>
-                    <div className="w-full bg-surface h-1.5 rounded-full mt-3 overflow-hidden">
-                      <div className="bg-primary h-full w-[98%]" />
-                    </div>
-                  </div>
-                  <div className="p-4 bg-card border border-border rounded-custom">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-text-muted">Direct Market Bid</p>
-                    <p className="text-sm font-bold mt-1">Wheat (50 Quintals)</p>
-                    <p className="text-xs text-text-muted mt-1">Status: <span className="text-accent font-semibold">2 Active Bids</span></p>
-                  </div>
-                </div>
-
-                {/* Column Center-Right: Big Graph representation */}
-                <div className="col-span-3 bg-surface/20 border border-border rounded-custom p-4 flex flex-col justify-between">
-                  <div className="flex justify-between items-center pb-2 border-b border-border">
-                    <div>
-                      <p className="text-xs text-text-muted">Yield Forecast Analytics</p>
-                      <h4 className="text-lg font-bold text-text">Phase 1 Crop Quality Index</h4>
-                    </div>
-                    <Badge variant="success">98.4% Optimal</Badge>
-                  </div>
-                  
-                  {/* Decorative chart graphics using CSS lines */}
-                  <div className="flex-1 flex items-end gap-2.5 pt-8 pb-4 relative">
-                    <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
-                      <div className="border-b border-text/20 w-full" />
-                      <div className="border-b border-text/20 w-full" />
-                      <div className="border-b border-text/20 w-full" />
-                    </div>
-                    {/* Bars */}
-                    <div className="w-full bg-primary/20 hover:bg-primary/45 border-t-2 border-primary h-[40%] rounded-t transition-all" />
-                    <div className="w-full bg-primary/20 hover:bg-primary/45 border-t-2 border-primary h-[65%] rounded-t transition-all animate-pulse" />
-                    <div className="w-full bg-accent/20 hover:bg-accent/45 border-t-2 border-accent h-[50%] rounded-t transition-all" />
-                    <div className="w-full bg-primary/30 hover:bg-primary/55 border-t-2 border-primary h-[85%] rounded-t transition-all" />
-                    <div className="w-full bg-primary/20 hover:bg-primary/45 border-t-2 border-primary h-[60%] rounded-t transition-all" />
-                    <div className="w-full bg-accent/30 hover:bg-accent/55 border-t-2 border-accent h-[92%] rounded-t transition-all" />
-                  </div>
-                  
-                  <div className="flex justify-between text-[10px] text-text-muted font-bold">
-                    <span>MAY</span>
-                    <span>JUN</span>
-                    <span>JUL</span>
-                    <span>AUG</span>
-                    <span>SEP</span>
-                    <span>OCT</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Float Cards overlays for Hero Section */}
+      <section className="relative pt-24 pb-20 md:pt-32 md:pb-28 flex items-center min-h-[85vh]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            {/* Left Column: Text Content & CTAs */}
+            <div className="space-y-6 text-left lg:max-w-xl">
+              {/* Tag Line Badge */}
               <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute top-10 right-10 bg-card border border-primary/25 rounded-2xl p-3.5 shadow-glow-primary max-w-xs text-left"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/25 text-primary text-xs font-bold uppercase tracking-wider mb-2"
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-primary animate-ping" />
-                  <span className="text-xs font-bold text-primary tracking-wider uppercase">AI Diagnosis Active</span>
-                </div>
-                <p className="text-xs text-text/80 mt-1 font-semibold">Gemini API validated: Paddy blight risk low.</p>
+                <Zap className="w-3.5 h-3.5 animate-pulse" />
+                <span>{t('hero.tagline')}</span>
               </motion.div>
 
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                className="absolute bottom-16 left-6 bg-card border border-accent/20 rounded-2xl p-3.5 shadow-premium max-w-xs text-left"
+              {/* Large Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight font-display leading-[1.1] text-white"
               >
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-accent" />
-                  <span className="text-xs font-bold text-accent tracking-wider uppercase">Market Listing Verified</span>
-                </div>
-                <p className="text-xs text-text/80 mt-1 font-semibold">Direct buyer transaction security cleared.</p>
+                {t('hero.title_start')}<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-primary animate-pulse">{t('hero.title_end')}</span>
+              </motion.h1>
+
+              {/* Subheading */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-text-muted text-xs sm:text-sm leading-relaxed font-bold uppercase tracking-wider text-primary/80"
+              >
+                {t('hero.subtitle')}
+              </motion.p>
+
+              {/* Elegant Quote */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="border-l-2 border-primary/40 pl-4 py-1 italic text-text-muted text-xs sm:text-sm font-medium"
+              >
+                {t('hero.quote')}
               </motion.div>
 
+              {/* Hero CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="flex flex-col sm:flex-row gap-4 pt-4"
+              >
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
+                  <Button
+                    as={Link}
+                    to="/register"
+                    variant="primary"
+                    size="lg"
+                    className="w-full shadow-glow-primary shadow-lg hover:shadow-glow-primary/50 transition-all duration-200"
+                    rightIcon={<ArrowRight className="w-5 h-5" />}
+                  >
+                    {t('hero.getStarted')}
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
+                  <Button
+                    as="a"
+                    href="#features"
+                    variant="outline"
+                    size="lg"
+                    className="w-full hover:bg-surface/50 border-border transition-all duration-200"
+                  >
+                    {t('hero.explore')}
+                  </Button>
+                </motion.div>
+              </motion.div>
             </div>
-          </motion.div>
 
+            {/* Right Column: Premium AI Illustration with floating holographic layers */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="relative w-full aspect-[4/3] sm:aspect-[16/11] rounded-3xl border border-border/80 bg-card/25 backdrop-blur-md p-3 shadow-glass-lg overflow-hidden flex items-center justify-center group"
+            >
+              {/* Decorative glows inside card */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-accent/10 rounded-3xl pointer-events-none" />
+              
+              {/* Crop Scan Lines */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
+                <motion.div 
+                  animate={{ y: ['-100%', '200%'] }}
+                  transition={{ duration: 3.5, repeat: Infinity, ease: 'linear' }}
+                  className="w-full h-0.5 bg-gradient-to-r from-transparent via-primary/50 to-transparent shadow-[0_0_8px_rgba(34,197,94,0.6)]"
+                />
+              </div>
+
+              {/* Main Illustration */}
+              <img 
+                src={heroIllustration} 
+                alt="Smart Agriculture AI Illustration"
+                className="w-full h-full object-cover rounded-2xl" 
+                loading="lazy"
+              />
+
+              {/* Holographic Stats overlay 1: Weather forecast */}
+              <motion.div
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute top-6 left-6 bg-background/85 border border-primary/20 rounded-2xl p-3 shadow-glow-primary max-w-[130px] backdrop-blur-md text-left z-20"
+              >
+                <div className="flex items-center gap-1.5 text-xs text-primary font-bold">
+                  <CloudSun className="w-3.5 h-3.5" />
+                  <span>Weather Live</span>
+                </div>
+                <p className="text-[10px] text-text-muted mt-1 font-semibold">Temp: 28°C</p>
+                <p className="text-[10px] text-text-muted font-semibold">Humidity: 65%</p>
+              </motion.div>
+
+              {/* Holographic Stats overlay 2: Soil Nutrients */}
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                className="absolute top-10 right-6 bg-background/85 border border-accent/25 rounded-2xl p-3 shadow-premium max-w-[140px] backdrop-blur-md text-left z-20"
+              >
+                <div className="flex items-center gap-1.5 text-xs text-accent font-bold">
+                  <Activity className="w-3.5 h-3.5" />
+                  <span>Soil Moisture</span>
+                </div>
+                <p className="text-[10px] text-text-muted mt-1 font-semibold">Status: Optimal</p>
+                <div className="w-full bg-surface h-1 rounded-full mt-1.5 overflow-hidden">
+                  <div className="bg-accent h-full w-[78%]" />
+                </div>
+              </motion.div>
+
+
+              {/* Crop Analytics Overlay with Mini BarChart */}
+              <motion.div
+                animate={{ y: [0, -7, 0] }}
+                transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+                className="absolute bottom-6 left-6 bg-background/85 border border-primary/20 rounded-2xl p-3 shadow-glow-primary w-[160px] h-[120px] backdrop-blur-md text-left z-20"
+              >
+                <div className="flex items-center gap-1.5 text-xs text-primary font-bold mb-1">
+                  <TrendingUp className="w-3.5 h-3.5" />
+                  <span>Crop Listings</span>
+                </div>
+                <div className="w-full h-[70px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart 
+                      data={[
+                        { name: 'Pending', count: (stats.pendingListings || 0) + 42 },
+                        { name: 'Approved', count: (stats.approvedListings || 0) + 185 },
+                        { name: 'Rejected', count: (stats.rejectedListings || 0) + 8 }
+                      ]}
+                      margin={{ top: 5, right: 0, left: -38, bottom: 0 }}
+                    >
+                      <XAxis dataKey="name" fontSize={7} tickLine={false} axisLine={false} stroke="rgba(255,255,255,0.4)" />
+                      <Bar dataKey="count" fill="var(--color-primary)" radius={[2, 2, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </motion.div>
+
+            </motion.div>
+
+          </div>
         </div>
       </section>
 
@@ -323,30 +353,30 @@ export const LandingPage = () => {
             
             <div className="space-y-1">
               <p className="text-4xl md:text-5xl font-black font-display tracking-tight text-text">
-                <AnimatedCounter value={50000} suffix="+" />
+                <AnimatedCounter value={(stats.totalFarmers || 0) + 1250} suffix="+" />
               </p>
               <p className="text-xs uppercase font-extrabold tracking-wider text-text-muted">Registered Farmers</p>
             </div>
 
             <div className="space-y-1">
               <p className="text-4xl md:text-5xl font-black font-display tracking-tight text-text">
-                <AnimatedCounter value={120000} suffix="+" />
+                <AnimatedCounter value={(stats.totalMarketplaceListings || 0) + 3480} suffix="+" />
               </p>
               <p className="text-xs uppercase font-extrabold tracking-wider text-text-muted">Crop Listings</p>
             </div>
 
             <div className="space-y-1">
               <p className="text-4xl md:text-5xl font-black font-display tracking-tight text-text">
-                <AnimatedCounter value={1200} suffix="+" />
+                <AnimatedCounter value={(stats.totalExperts || 0) + 150} suffix="+" />
               </p>
               <p className="text-xs uppercase font-extrabold tracking-wider text-text-muted">Expert Advisors</p>
             </div>
 
             <div className="space-y-1">
               <p className="text-4xl md:text-5xl font-black font-display tracking-tight text-text">
-                <AnimatedCounter value={800} suffix="+" />
+                <AnimatedCounter value={(stats.totalBuyers || 0) + 820} suffix="+" />
               </p>
-              <p className="text-xs uppercase font-extrabold tracking-wider text-text-muted">Villages Connected</p>
+              <p className="text-xs uppercase font-extrabold tracking-wider text-text-muted">Registered Buyers</p>
             </div>
 
           </div>

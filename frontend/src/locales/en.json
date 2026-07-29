@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "features": "Features",
+    "marketplace": "Marketplace",
+    "equipment": "Equipment",
+    "aiPlatform": "AI Platform",
+    "about": "About",
+    "faq": "FAQ",
+    "dashboard": "Dashboard",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "welcome": "Welcome"
+  },
+  "hero": {
+    "tagline": "Next-Generation Agriculture",
+    "title_start": "Empowering Every Farmer with ",
+    "title_end": "AI",
+    "subtitle": "Smarter Farming • Digital Marketplace • Equipment Rental • AI Crop Diagnosis • Expert Advisory",
+    "quote": "Where Technology Meets Tradition, Every Harvest Becomes Smarter.",
+    "getStarted": "Get Started Free",
+    "explore": "Explore Platform"
+  },
+  "sidebar": {
+    "home": "Home",
+    "crops": "Crops",
+    "ai": "AI Assistant",
+    "marketplace": "Marketplace",
+    "equipment": "Rentals",
+    "weather": "Weather",
+    "schemes": "Schemes",
+    "community": "Community",
+    "analytics": "Analytics",
+    "profile": "Profile",
+    "settings": "Settings",
+    "browseCrops": "Browse Crops",
+    "farmers": "Farmers",
+    "wishlist": "Wishlist",
+    "orders": "Orders",
+    "marketPrices": "Market Prices",
+    "reviews": "Reviews",
+    "consultations": "Consultations",
+    "appointments": "Appointments",
+    "knowledgeHub": "Knowledge Hub",
+    "users": "Users",
+    "buyers": "Buyers",
+    "experts": "Experts",
+    "equipmentRentals": "Equipment Rentals",
+    "aiReports": "AI Reports"
+  },
+  "comingSoon": {
+    "comingBadge": "Coming in Version 2.0",
+    "title": "Coming Soon",
+    "page": "Page",
+    "notifyMe": "Notify Me",
+    "developmentToast": "This module is under development."
+  },
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit"
+  }
+}

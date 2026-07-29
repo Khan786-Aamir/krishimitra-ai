@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Tractor, ArrowLeft, Loader, Plus, Trash } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
 import equipmentService from '../../services/equipmentService';
-import { Button } from '../../components/ui';
+import { Button, ImageUpload } from '../../components/ui';
 
 export const EditEquipment = () => {
   const { id } = useParams();
@@ -30,7 +30,7 @@ export const EditEquipment = () => {
   const [workingHours, setWorkingHours] = useState('');
   const [fuelType, setFuelType] = useState('Diesel');
 
-  const [imageUrls, setImageUrls] = useState(['']);
+  const [images, setImages] = useState([]);
   const [attachments, setAttachments] = useState(['']);
 
   useEffect(() => {
@@ -59,9 +59,9 @@ export const EditEquipment = () => {
           setFuelType(eq.fuelType || 'Diesel');
 
           if (eq.images && eq.images.length > 0) {
-            setImageUrls(eq.images.map(img => img.url));
+            setImages(eq.images);
           } else {
-            setImageUrls(['']);
+            setImages([]);
           }
 
           if (eq.attachments && eq.attachments.length > 0) {
@@ -80,19 +80,7 @@ export const EditEquipment = () => {
     loadDetails();
   }, [id]);
 
-  const handleAddImageUrlField = () => {
-    setImageUrls([...imageUrls, '']);
-  };
-
-  const handleRemoveImageUrlField = (idx) => {
-    setImageUrls(imageUrls.filter((_, i) => i !== idx));
-  };
-
-  const handleImageUrlChange = (idx, val) => {
-    const updated = [...imageUrls];
-    updated[idx] = val;
-    setImageUrls(updated);
-  };
+  // Removed handleAddImageUrlField, handleRemoveImageUrlField, and handleImageUrlChange
 
   const handleAddAttachmentField = () => {
     setAttachments([...attachments, '']);
@@ -137,16 +125,12 @@ export const EditEquipment = () => {
       return;
     }
 
-    const filteredImages = imageUrls
-      .filter(url => url.trim() !== '')
-      .map(url => ({ url, filename: 'upload' }));
-
-    if (filteredImages.length === 0) {
-      filteredImages.push({
+    const filteredImages = images.length > 0 ? images : [
+      {
         url: 'https://images.unsplash.com/photo-1595275313093-f112e07c371a?auto=format&fit=crop&q=80&w=600',
         filename: 'placeholder'
-      });
-    }
+      }
+    ];
 
     const filteredAttachments = attachments.filter(at => at.trim() !== '');
 
@@ -433,40 +417,10 @@ export const EditEquipment = () => {
           </div>
         </div>
 
-        {/* Dynamic Image URLs Fields */}
+        {/* Equipment Images Upload */}
         <div className="space-y-4 pt-4 border-t border-border/40">
-          <div className="flex justify-between items-center pb-1">
-            <h3 className="text-sm font-bold text-white">Equipment Images (Cloudinary Fallback URLs)</h3>
-            <button
-              type="button"
-              onClick={handleAddImageUrlField}
-              className="text-[10px] text-primary hover:underline font-bold flex items-center gap-1 cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" /> Add Image Field
-            </button>
-          </div>
-          <div className="space-y-3">
-            {imageUrls.map((url, idx) => (
-              <div key={idx} className="flex gap-3 items-center">
-                <input
-                  type="text"
-                  placeholder="Paste Unsplash or Cloudinary image URL link..."
-                  value={url}
-                  onChange={(e) => handleImageUrlChange(idx, e.target.value)}
-                  className="flex-1 bg-surface border border-border/80 rounded-xl py-2.5 px-3 text-text focus:outline-none"
-                />
-                {imageUrls.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImageUrlField(idx)}
-                    className="p-2.5 bg-red-500/10 border border-red-500/20 text-rose-400 hover:bg-red-500/20 rounded-xl transition-all cursor-pointer"
-                  >
-                    <Trash className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
+          <h3 className="text-sm font-bold text-white pb-1">Equipment Images</h3>
+          <ImageUpload images={images} onChange={setImages} maxImages={5} />
         </div>
 
         {/* Dynamic Attachments Fields */}

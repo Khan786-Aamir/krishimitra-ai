@@ -1,123 +1,58 @@
 import React from 'react';
-import {
-  CropYieldChart,
-  RevenueTrendChart,
-  CropDistributionChart,
-  DiagnosisTrendChart,
-  RainfallTrendChart
-} from '../components/charts/DashboardCharts';
+import { motion } from 'framer-motion';
+import { LineChart, BarChart2, TrendingUp } from 'lucide-react';
+import ComingSoon from '../../components/ComingSoon';
 
 export const AnalyticsPage = () => {
-  // Local static mock arrays matching the dashboard trends
-  const monthlyCropYield = [
-    { month: 'Jan', yield: 40 },
-    { month: 'Feb', yield: 48 },
-    { month: 'Mar', yield: 62 },
-    { month: 'Apr', yield: 55 },
-    { month: 'May', yield: 78 },
-    { month: 'Jun', yield: 85 }
+  const features = [
+    'Crop Reports',
+    'Revenue Analytics',
+    'Equipment Usage',
+    'Marketplace Insights',
+    'Export Reports'
   ];
 
-  const revenueTrend = [
-    { month: 'Jan', revenue: 15000 },
-    { month: 'Feb', revenue: 22000 },
-    { month: 'Mar', revenue: 35000 },
-    { month: 'Apr', revenue: 28000 },
-    { month: 'May', revenue: 42000 },
-    { month: 'Jun', revenue: 50000 }
-  ];
+  const illustration = (
+    <div className="relative w-64 h-64 bg-card/40 border border-border/60 rounded-3xl flex items-center justify-center shadow-glass overflow-hidden">
+      {/* Decorative Glow */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-accent/5 pointer-events-none" />
 
-  const cropDistribution = [
-    { name: 'Basmati Rice', value: 4 },
-    { name: 'Karan Wheat', value: 3 },
-    { name: 'Sugarcane', value: 2 },
-    { name: 'Raw Cotton', value: 1 }
-  ];
+      {/* Main Chart Icon */}
+      <motion.div
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        className="relative flex items-center justify-center p-8 bg-surface/50 border border-border/50 rounded-2xl shadow-premium z-10"
+      >
+        <LineChart className="w-24 h-24 text-emerald-400 animate-pulse" />
+      </motion.div>
 
-  const diagnosisTrend = [
-    { month: 'Jan', count: 2 },
-    { month: 'Feb', count: 5 },
-    { month: 'Mar', count: 1 },
-    { month: 'Apr', count: 4 },
-    { month: 'May', count: 8 },
-    { month: 'Jun', count: 12 }
-  ];
+      {/* Floating Indicators */}
+      <motion.div
+        animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+        className="absolute top-10 right-10 bg-indigo-500/10 border border-indigo-500/30 p-2.5 rounded-xl z-20 text-indigo-400"
+      >
+        <TrendingUp className="w-6 h-6" />
+      </motion.div>
 
-  const rainfallTrend = [
-    { month: 'Jan', rainfall: 45 },
-    { month: 'Feb', rainfall: 30 },
-    { month: 'Mar', rainfall: 25 },
-    { month: 'Apr', rainfall: 60 },
-    { month: 'May', rainfall: 150 },
-    { month: 'Jun', rainfall: 210 }
-  ];
+      <motion.div
+        animate={{ y: [0, 8, 0], rotate: [0, -5, 0] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+        className="absolute bottom-10 left-10 bg-emerald-500/10 border border-primary/30 p-2.5 rounded-xl z-20 text-primary"
+      >
+        <BarChart2 className="w-6 h-6" />
+      </motion.div>
+    </div>
+  );
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
-      <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight font-display">Farm Analytics Board</h1>
-        <p className="text-xs text-text/40 font-semibold mt-1">
-          Detailed telemetry charts tracking soil outputs, rainfall patterns, diagnosis trends, and income indices.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Yield Area Chart */}
-        <div className="bg-card border border-border rounded-2xl p-5 shadow-premium space-y-3">
-          <div className="flex justify-between items-center border-b border-border/40 pb-3">
-            <h3 className="font-bold text-sm text-text">Seasonal Crop Yield Indices</h3>
-            <span className="text-[10px] uppercase font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full">
-              Tonnes / Hectare
-            </span>
-          </div>
-          <CropYieldChart data={monthlyCropYield} />
-        </div>
-
-        {/* Sales Bar Chart */}
-        <div className="bg-card border border-border rounded-2xl p-5 shadow-premium space-y-3">
-          <div className="flex justify-between items-center border-b border-border/40 pb-3">
-            <h3 className="font-bold text-sm text-text">Revenue Trends (Mandi Bids)</h3>
-            <span className="text-[10px] uppercase font-bold text-accent bg-accent/10 border border-accent/20 px-2 py-0.5 rounded-full">
-              Rupees (₹)
-            </span>
-          </div>
-          <RevenueTrendChart data={revenueTrend} />
-        </div>
-
-        {/* Diagnosis Line Chart */}
-        <div className="bg-card border border-border rounded-2xl p-5 shadow-premium space-y-3">
-          <div className="flex justify-between items-center border-b border-border/40 pb-3">
-            <h3 className="font-bold text-sm text-text">AI Pathogen Scans count</h3>
-            <span className="text-[10px] uppercase font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">
-              Monthly Scans
-            </span>
-          </div>
-          <DiagnosisTrendChart data={diagnosisTrend} />
-        </div>
-
-        {/* Rainfall Area Chart */}
-        <div className="bg-card border border-border rounded-2xl p-5 shadow-premium space-y-3">
-          <div className="flex justify-between items-center border-b border-border/40 pb-3">
-            <h3 className="font-bold text-sm text-text">Precipitation Levels (Monsoon)</h3>
-            <span className="text-[10px] uppercase font-bold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-2 py-0.5 rounded-full">
-              Millimetres (mm)
-            </span>
-          </div>
-          <RainfallTrendChart data={rainfallTrend} />
-        </div>
-
-        {/* Crop distribution Pie Chart */}
-        <div className="bg-card border border-border rounded-2xl p-5 shadow-premium space-y-3 lg:col-span-2">
-          <div className="flex justify-between items-center border-b border-border/40 pb-3">
-            <h3 className="font-bold text-sm text-text">Crop Variety Distribution</h3>
-            <span className="text-[10px] uppercase font-bold text-text/40 tracking-wider">
-              Land Acre allocation
-            </span>
-          </div>
-          <CropDistributionChart data={cropDistribution} />
-        </div>
-      </div>
-    </div>
+    <ComingSoon
+      title="Analytics & Reports"
+      subtitle="We're implementing precision telemetry chart builders. This console will generate dynamic yield estimates, equipment utilization records, and direct PDF downloads."
+      icon={BarChart2}
+      features={features}
+      illustration={illustration}
+    />
   );
 };
 

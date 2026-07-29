@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FilePlus2, Edit2, Trash2, ShieldAlert, Sparkles, CheckCircle, Plus, X, Globe, Save } from 'lucide-react';
 import marketplaceService from '../../services/marketplaceService';
-import { DataTable, Button, Modal, Input, Textarea, Badge } from '../../components/ui';
+import { DataTable, Button, Modal, Input, Textarea, Badge, ImageUpload } from '../../components/ui';
 
 export const MyListings = () => {
   const [listings, setListings] = useState([]);
@@ -29,10 +29,7 @@ export const MyListings = () => {
   const [transportationDetails, setTransportationDetails] = useState('');
   const [qualityGrade, setQualityGrade] = useState('A+');
   
-  // Multiple images state: [{ url, filename }]
-  const [images, setImages] = useState([
-    { url: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=600', filename: 'Front View' }
-  ]);
+  const [images, setImages] = useState([]);
   const [newImageUrl, setNewImageUrl] = useState('');
   const [newImageLabel, setNewImageLabel] = useState('Front View');
 
@@ -68,9 +65,7 @@ export const MyListings = () => {
     setStorageInfo('');
     setTransportationDetails('');
     setQualityGrade('A+');
-    setImages([
-      { url: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=600', filename: 'Front View' }
-    ]);
+    setImages([]);
   };
 
   const handleAddImage = () => {
@@ -87,6 +82,9 @@ export const MyListings = () => {
 
   const handleAddSubmit = async (e) => {
     e.preventDefault();
+    const finalImages = images.length > 0 ? images : [
+      { url: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=600', filename: 'placeholder' }
+    ];
     try {
       await marketplaceService.createListing({
         name,
@@ -97,7 +95,7 @@ export const MyListings = () => {
         availableQuantity: Number(availableQuantity),
         harvestDate: harvestDate || new Date(),
         isOrganic,
-        images,
+        images: finalImages,
         location,
         district,
         state,
@@ -131,13 +129,14 @@ export const MyListings = () => {
     setStorageInfo(listing.storageInfo || '');
     setTransportationDetails(listing.transportationDetails || '');
     setQualityGrade(listing.qualityGrade || 'A+');
-    setImages(listing.images && listing.images.length > 0 ? listing.images : [
-      { url: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=600', filename: 'Front View' }
-    ]);
+    setImages(listing.images && listing.images.length > 0 ? listing.images : []);
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+    const finalImages = images.length > 0 ? images : [
+      { url: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=600', filename: 'placeholder' }
+    ];
     try {
       await marketplaceService.updateListing(editListing._id || editListing.id, {
         name,
@@ -148,7 +147,7 @@ export const MyListings = () => {
         availableQuantity: Number(availableQuantity),
         harvestDate: harvestDate || new Date(),
         isOrganic,
-        images,
+        images: finalImages,
         location,
         district,
         state,
@@ -446,43 +445,10 @@ export const MyListings = () => {
             <span>This is Certified Organic Produce</span>
           </label>
 
-          {/* Multiple Image specs */}
+          {/* Multiple Image uploads */}
           <div className="space-y-3 border-t border-border/40 pt-4">
             <span className="block font-bold text-white uppercase tracking-wider text-[9px]">Crop Batch Images</span>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="Image URL https://..."
-                value={newImageUrl}
-                onChange={(e) => setNewImageUrl(e.target.value)}
-                className="flex-1 bg-surface border border-border rounded-xl text-xs py-2 px-3 text-text"
-              />
-              <select
-                value={newImageLabel}
-                onChange={(e) => setNewImageLabel(e.target.value)}
-                className="bg-surface border border-border rounded-xl text-xs py-2 px-3 text-text"
-              >
-                <option value="Front View">Front View</option>
-                <option value="Close View">Close View</option>
-                <option value="Harvest Image">Harvest Image</option>
-                <option value="Packaging">Packaging</option>
-              </select>
-              <Button type="button" variant="outline" onClick={handleAddImage} className="text-xs">
-                Add
-              </Button>
-            </div>
-
-            <div className="flex flex-wrap gap-2 pt-2">
-              {images.map((img, idx) => (
-                <div key={idx} className="flex items-center gap-2 bg-surface border border-border/60 p-2 rounded-xl text-[10px] text-gray-300">
-                  <span className="font-bold">{img.filename}:</span>
-                  <span className="max-w-[120px] truncate">{img.url}</span>
-                  <button type="button" onClick={() => handleRemoveImage(idx)} className="text-rose-400 hover:text-rose-300">
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              ))}
-            </div>
+            <ImageUpload images={images} onChange={setImages} maxImages={5} />
           </div>
 
           <div className="flex justify-end gap-2 pt-4 border-t border-border/40">
@@ -640,43 +606,10 @@ export const MyListings = () => {
               <span>This is Certified Organic Produce</span>
             </label>
 
-            {/* Multiple Image specs */}
+            {/* Multiple Image uploads */}
             <div className="space-y-3 border-t border-border/40 pt-4">
               <span className="block font-bold text-white uppercase tracking-wider text-[9px]">Crop Batch Images</span>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Image URL https://..."
-                  value={newImageUrl}
-                  onChange={(e) => setNewImageUrl(e.target.value)}
-                  className="flex-1 bg-surface border border-border rounded-xl text-xs py-2 px-3 text-text"
-                />
-                <select
-                  value={newImageLabel}
-                  onChange={(e) => setNewImageLabel(e.target.value)}
-                  className="bg-surface border border-border rounded-xl text-xs py-2 px-3 text-text"
-                >
-                  <option value="Front View">Front View</option>
-                  <option value="Close View">Close View</option>
-                  <option value="Harvest Image">Harvest Image</option>
-                  <option value="Packaging">Packaging</option>
-                </select>
-                <Button type="button" variant="outline" onClick={handleAddImage} className="text-xs">
-                  Add
-                </Button>
-              </div>
-
-              <div className="flex flex-wrap gap-2 pt-2">
-                {images.map((img, idx) => (
-                  <div key={idx} className="flex items-center gap-2 bg-surface border border-border/60 p-2 rounded-xl text-[10px] text-gray-300">
-                    <span className="font-bold">{img.filename}:</span>
-                    <span className="max-w-[120px] truncate">{img.url}</span>
-                    <button type="button" onClick={() => handleRemoveImage(idx)} className="text-rose-400 hover:text-rose-300">
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                ))}
-              </div>
+              <ImageUpload images={images} onChange={setImages} maxImages={5} />
             </div>
 
             <div className="flex justify-end gap-2 pt-4 border-t border-border/40">

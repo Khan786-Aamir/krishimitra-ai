@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import LanguageSelector from '../../components/LanguageSelector';
 import {
   Sun,
   Moon,
@@ -123,6 +124,7 @@ export const Topbar = ({
 
       {/* Right Area: Quick Actions, Theme, Notifications, Profile */}
       <div className="flex items-center gap-2 sm:gap-3">
+        <LanguageSelector />
         {/* Quick action buttons */}
         <div className="hidden lg:flex items-center gap-1.5 border-r border-border/50 pr-3 mr-1">
           <Button

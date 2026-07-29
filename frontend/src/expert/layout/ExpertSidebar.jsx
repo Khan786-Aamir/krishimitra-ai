@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard,
   Stethoscope,
@@ -26,20 +27,21 @@ export const ExpertSidebar = ({
   setIsCollapsed,
   className = ''
 }) => {
+  const { t } = useTranslation();
   const location = useLocation();
 
   const menuItems = [
-    { label: 'Dashboard', to: '/expert', icon: <LayoutDashboard className="w-5 h-5" /> },
-    { label: 'AI Assistant', to: '/assistant', icon: <Bot className="w-5 h-5" /> },
-    { label: 'AI Diagnosis Reviews', to: '/expert/reviews', icon: <Stethoscope className="w-5 h-5" /> },
-    { label: 'Consultations', to: '/expert/consultations', icon: <MessageSquare className="w-5 h-5" /> },
-    { label: 'Appointments', to: '/expert/appointments', icon: <Calendar className="w-5 h-5" /> },
-    { label: 'Farmers', to: '/expert/farmers', icon: <Users className="w-5 h-5" /> },
-    { label: 'Knowledge Hub', to: '/expert/knowledge-hub', icon: <BookOpen className="w-5 h-5" /> },
-    { label: 'Community', to: '/expert/community', icon: <MessageCircle className="w-5 h-5" /> },
-    { label: 'Analytics', to: '/expert/analytics', icon: <BarChart3 className="w-5 h-5" /> },
-    { label: 'Profile', to: '/expert/profile', icon: <User className="w-5 h-5" /> },
-    { label: 'Settings', to: '/expert/settings', icon: <Settings className="w-5 h-5" /> }
+    { label: t('sidebar.home'), to: '/expert', icon: <LayoutDashboard className="w-5 h-5" /> },
+    { label: t('sidebar.ai'), to: '/assistant', icon: <Bot className="w-5 h-5" /> },
+    { label: t('sidebar.reviews'), to: '/expert/reviews', icon: <Stethoscope className="w-5 h-5" /> },
+    { label: t('sidebar.consultations'), to: '/expert/consultations', icon: <MessageSquare className="w-5 h-5" /> },
+    { label: t('sidebar.appointments'), to: '/expert/appointments', icon: <Calendar className="w-5 h-5" /> },
+    { label: t('sidebar.farmers'), to: '/expert/farmers', icon: <Users className="w-5 h-5" /> },
+    { label: t('sidebar.knowledgeHub'), to: '/expert/knowledge-hub', icon: <BookOpen className="w-5 h-5" /> },
+    { label: t('sidebar.community'), to: '/expert/community', icon: <MessageCircle className="w-5 h-5" /> },
+    { label: t('sidebar.analytics'), to: '/expert/analytics', icon: <BarChart3 className="w-5 h-5" /> },
+    { label: t('sidebar.profile'), to: '/expert/profile', icon: <User className="w-5 h-5" /> },
+    { label: t('sidebar.settings'), to: '/expert/settings', icon: <Settings className="w-5 h-5" /> }
   ];
 
   return (
@@ -123,10 +125,10 @@ export const ExpertSidebar = ({
           className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold border border-red-500/10 hover:border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-red-400 transition-all cursor-pointer ${
             isCollapsed ? 'justify-center px-0' : ''
           }`}
-          title={isCollapsed ? 'Log Out' : undefined}
+          title={isCollapsed ? t('nav.signOut') : undefined}
         >
           <LogOut className="w-4 h-4 shrink-0" />
-          {!isCollapsed && <span>Logout</span>}
+          {!isCollapsed && <span>{t('nav.signOut')}</span>}
         </button>
       </div>
     </aside>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard,
   Sprout,
@@ -26,20 +27,21 @@ export const Sidebar = ({
   setIsCollapsed,
   className = ''
 }) => {
+  const { t } = useTranslation();
   const location = useLocation();
 
   const menuItems = [
-    { label: 'Dashboard', to: '/farmer', icon: <LayoutDashboard className="w-5 h-5" /> },
-    { label: 'My Crops', to: '/farmer/crops', icon: <Sprout className="w-5 h-5" /> },
-    { label: 'AI Assistant', to: '/assistant', icon: <Bot className="w-5 h-5" /> },
-    { label: 'Marketplace', to: '/marketplace', icon: <ShoppingBag className="w-5 h-5" /> },
-    { label: 'Equipment', to: '/farmer/equipment', icon: <Wrench className="w-5 h-5" /> },
-    { label: 'Weather', to: '/farmer/weather', icon: <CloudSun className="w-5 h-5" /> },
-    { label: 'Government Schemes', to: '/farmer/schemes', icon: <Award className="w-5 h-5" /> },
-    { label: 'Community', to: '/farmer/community', icon: <Users className="w-5 h-5" /> },
-    { label: 'Analytics', to: '/farmer/analytics', icon: <LineChart className="w-5 h-5" /> },
-    { label: 'Profile', to: '/farmer/profile', icon: <User className="w-5 h-5" /> },
-    { label: 'Settings', to: '/farmer/settings', icon: <Settings className="w-5 h-5" /> }
+    { label: t('sidebar.home'), to: '/farmer', icon: <LayoutDashboard className="w-5 h-5" /> },
+    { label: t('sidebar.crops'), to: '/farmer/crops', icon: <Sprout className="w-5 h-5" /> },
+    { label: t('sidebar.ai'), to: '/assistant', icon: <Bot className="w-5 h-5" /> },
+    { label: t('sidebar.marketplace'), to: '/marketplace', icon: <ShoppingBag className="w-5 h-5" /> },
+    { label: t('sidebar.equipment'), to: '/farmer/equipment', icon: <Wrench className="w-5 h-5" /> },
+    { label: t('sidebar.weather'), to: '/farmer/weather', icon: <CloudSun className="w-5 h-5" /> },
+    { label: t('sidebar.schemes'), to: '/farmer/schemes', icon: <Award className="w-5 h-5" /> },
+    { label: t('sidebar.community'), to: '/farmer/community', icon: <Users className="w-5 h-5" /> },
+    { label: t('sidebar.analytics'), to: '/farmer/analytics', icon: <LineChart className="w-5 h-5" /> },
+    { label: t('sidebar.profile'), to: '/farmer/profile', icon: <User className="w-5 h-5" /> },
+    { label: t('sidebar.settings'), to: '/farmer/settings', icon: <Settings className="w-5 h-5" /> }
   ];
 
   return (
@@ -119,10 +121,10 @@ export const Sidebar = ({
           className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold border border-red-500/10 hover:border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-red-400 transition-all cursor-pointer ${
             isCollapsed ? 'justify-center px-0' : ''
           }`}
-          title={isCollapsed ? 'Log Out' : undefined}
+          title={isCollapsed ? t('nav.signOut') : undefined}
         >
           <LogOut className="w-4 h-4 shrink-0" />
-          {!isCollapsed && <span>Logout</span>}
+          {!isCollapsed && <span>{t('nav.signOut')}</span>}
         </button>
       </div>
     </aside>

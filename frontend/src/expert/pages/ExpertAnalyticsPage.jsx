@@ -1,93 +1,58 @@
-import React, { useState, useEffect } from 'react';
-import { BarChart3, TrendingUp, PieChart, Star, RefreshCw } from 'lucide-react';
-import expertService from '../services/expertService';
-import {
-  MonthlyConsultationsChart,
-  DiseaseCategoryChart,
-  FarmerSatisfactionChart
-} from '../components/charts/ExpertCharts';
-import { LoadingSkeleton, ErrorState } from '../components/ui/StateViews';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { LineChart, BarChart2, TrendingUp } from 'lucide-react';
+import ComingSoon from '../../components/ComingSoon';
 
 export const ExpertAnalyticsPage = () => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [analytics, setAnalytics] = useState(null);
+  const features = [
+    'Crop Reports',
+    'Revenue Analytics',
+    'Equipment Usage',
+    'Marketplace Insights',
+    'Export Reports'
+  ];
 
-  const loadAnalytics = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await expertService.getAnalytics();
-      setAnalytics(data);
-    } catch (err) {
-      setError('Unable to load expert analytics.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const illustration = (
+    <div className="relative w-64 h-64 bg-card/40 border border-border/60 rounded-3xl flex items-center justify-center shadow-glass overflow-hidden">
+      {/* Decorative Glow */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-accent/5 pointer-events-none" />
 
-  useEffect(() => {
-    loadAnalytics();
-  }, []);
+      {/* Main Chart Icon */}
+      <motion.div
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        className="relative flex items-center justify-center p-8 bg-surface/50 border border-border/50 rounded-2xl shadow-premium z-10"
+      >
+        <LineChart className="w-24 h-24 text-emerald-400 animate-pulse" />
+      </motion.div>
 
-  if (loading) return <LoadingSkeleton type="cards" count={3} />;
-  if (error) return <ErrorState message={error} onRetry={loadAnalytics} />;
+      {/* Floating Indicators */}
+      <motion.div
+        animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+        className="absolute top-10 right-10 bg-indigo-500/10 border border-indigo-500/30 p-2.5 rounded-xl z-20 text-indigo-400"
+      >
+        <TrendingUp className="w-6 h-6" />
+      </motion.div>
 
-  const { monthlyConsultations, diseaseCategories, farmerSatisfaction } = analytics || {};
+      <motion.div
+        animate={{ y: [0, 8, 0], rotate: [0, -5, 0] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+        className="absolute bottom-10 left-10 bg-emerald-500/10 border border-primary/30 p-2.5 rounded-xl z-20 text-primary"
+      >
+        <BarChart2 className="w-6 h-6" />
+      </motion.div>
+    </div>
+  );
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-text font-display">Advisory Performance Analytics</h1>
-          <p className="text-xs sm:text-sm text-text/50 mt-1">
-            Data metrics on monthly query resolution, disease distribution, and farmer satisfaction ratings.
-          </p>
-        </div>
-
-        <button
-          onClick={loadAnalytics}
-          className="flex items-center gap-2 px-4 py-2 bg-card hover:bg-surface border border-border text-xs font-bold text-text rounded-xl transition-all self-start sm:self-auto cursor-pointer"
-        >
-          <RefreshCw className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Refresh Data</span>
-        </button>
-      </div>
-
-      {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-card border border-border/80 rounded-2xl p-5 shadow-xl space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-emerald-400" />
-              <h3 className="text-base font-bold text-text font-display">Monthly Consultations Resolved</h3>
-            </div>
-          </div>
-          <MonthlyConsultationsChart data={monthlyConsultations} />
-        </div>
-
-        <div className="bg-card border border-border/80 rounded-2xl p-5 shadow-xl space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <PieChart className="w-5 h-5 text-indigo-400" />
-              <h3 className="text-base font-bold text-text font-display">Diagnosed Disease Categories</h3>
-            </div>
-          </div>
-          <DiseaseCategoryChart data={diseaseCategories} />
-        </div>
-
-        <div className="bg-card border border-border/80 rounded-2xl p-5 shadow-xl space-y-4 lg:col-span-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Star className="w-5 h-5 text-amber-400 fill-amber-400" />
-              <h3 className="text-base font-bold text-text font-display">Farmer Review Breakdown</h3>
-            </div>
-          </div>
-          <FarmerSatisfactionChart data={farmerSatisfaction} />
-        </div>
-      </div>
-    </div>
+    <ComingSoon
+      title="Analytics & Reports"
+      subtitle="We're implementing precision telemetry chart builders. This console will generate dynamic yield estimates, equipment utilization records, and direct PDF downloads."
+      icon={BarChart2}
+      features={features}
+      illustration={illustration}
+    />
   );
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard,
   Users,
@@ -28,23 +29,24 @@ export const Sidebar = ({
   setIsCollapsed,
   className = ''
 }) => {
+  const { t } = useTranslation();
   const location = useLocation();
 
   const menuItems = [
-    { label: 'Dashboard', to: '/admin', icon: <LayoutDashboard className="w-5 h-5" /> },
-    { label: 'AI Assistant', to: '/assistant', icon: <Bot className="w-5 h-5" /> },
-    { label: 'Users', to: '/admin/users', icon: <Users className="w-5 h-5" /> },
-    { label: 'Farmers', to: '/admin/farmers', icon: <Sprout className="w-5 h-5" /> },
-    { label: 'Buyers', to: '/admin/buyers', icon: <ShoppingBag className="w-5 h-5" /> },
-    { label: 'Experts', to: '/admin/experts', icon: <ShieldCheck className="w-5 h-5" /> },
-    { label: 'Marketplace', to: '/admin/marketplace', icon: <ShoppingBag className="w-5 h-5" /> },
-    { label: 'Equipment Rentals', to: '/admin/equipment', icon: <Wrench className="w-5 h-5" /> },
-    { label: 'Government Schemes', to: '/admin/schemes', icon: <Award className="w-5 h-5" /> },
-    { label: 'AI Reports', to: '/admin/ai', icon: <ClipboardCheck className="w-5 h-5" /> },
-    { label: 'Community', to: '/admin/community', icon: <MessageSquare className="w-5 h-5" /> },
-    { label: 'Analytics', to: '/admin/analytics', icon: <BarChart3 className="w-5 h-5" /> },
-    { label: 'Profile', to: '/admin/profile', icon: <User className="w-5 h-5" /> },
-    { label: 'Settings', to: '/admin/settings', icon: <Settings className="w-5 h-5" /> }
+    { label: t('sidebar.home'), to: '/admin', icon: <LayoutDashboard className="w-5 h-5" /> },
+    { label: t('sidebar.ai'), to: '/assistant', icon: <Bot className="w-5 h-5" /> },
+    { label: t('sidebar.users'), to: '/admin/users', icon: <Users className="w-5 h-5" /> },
+    { label: t('sidebar.farmers'), to: '/admin/farmers', icon: <Sprout className="w-5 h-5" /> },
+    { label: t('sidebar.buyers'), to: '/admin/buyers', icon: <ShoppingBag className="w-5 h-5" /> },
+    { label: t('sidebar.experts'), to: '/admin/experts', icon: <ShieldCheck className="w-5 h-5" /> },
+    { label: t('sidebar.marketplace'), to: '/admin/marketplace', icon: <ShoppingBag className="w-5 h-5" /> },
+    { label: t('sidebar.equipmentRentals'), to: '/admin/equipment', icon: <Wrench className="w-5 h-5" /> },
+    { label: t('sidebar.schemes'), to: '/admin/schemes', icon: <Award className="w-5 h-5" /> },
+    { label: t('sidebar.aiReports'), to: '/admin/ai', icon: <ClipboardCheck className="w-5 h-5" /> },
+    { label: t('sidebar.community'), to: '/admin/community', icon: <MessageSquare className="w-5 h-5" /> },
+    { label: t('sidebar.analytics'), to: '/admin/analytics', icon: <BarChart3 className="w-5 h-5" /> },
+    { label: t('sidebar.profile'), to: '/admin/profile', icon: <User className="w-5 h-5" /> },
+    { label: t('sidebar.settings'), to: '/admin/settings', icon: <Settings className="w-5 h-5" /> }
   ];
 
   return (
@@ -125,10 +127,10 @@ export const Sidebar = ({
           className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold border border-red-500/10 hover:border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-red-400 transition-all cursor-pointer ${
             isCollapsed ? 'justify-center px-0' : ''
           }`}
-          title={isCollapsed ? 'Log Out' : undefined}
+          title={isCollapsed ? t('nav.signOut') : undefined}
         >
           <LogOut className="w-4 h-4 shrink-0" />
-          {!isCollapsed && <span>Logout</span>}
+          {!isCollapsed && <span>{t('nav.signOut')}</span>}
         </button>
       </div>
     </aside>

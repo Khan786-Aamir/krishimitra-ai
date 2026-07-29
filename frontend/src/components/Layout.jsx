@@ -3,8 +3,11 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { LogOut, LayoutDashboard } from 'lucide-react';
 import { Navbar, Footer, Button } from './ui';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from './LanguageSelector';
 
 const Layout = () => {
+  const { t } = useTranslation();
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -32,18 +35,19 @@ const Layout = () => {
       {/* Sticky Global Header Navbar */}
       <Navbar
         links={[
-          { label: 'Features', to: '/#features' },
-          { label: 'Marketplace', to: '/marketplace' },
-          { label: 'Equipment', to: '/rentals' },
-          { label: 'AI Platform', to: '/#ai-showcase' },
-          { label: 'About', to: '/#how-it-works' },
-          { label: 'FAQ', to: '/#faq' },
+          { label: t('nav.features'), to: '/#features' },
+          { label: t('nav.marketplace'), to: '/marketplace' },
+          { label: t('nav.equipment'), to: '/rentals' },
+          { label: t('nav.aiPlatform'), to: '/#ai-showcase' },
+          { label: t('nav.about'), to: '/#how-it-works' },
+          { label: t('nav.faq'), to: '/#faq' },
         ]}
         actions={
           isAuthenticated ? (
             <div className="flex items-center gap-3">
+              <LanguageSelector />
               <span className="hidden sm:inline text-xs text-text/50 font-medium">
-                Welcome, <span className="text-text font-bold">{user?.name}</span> ({user?.role})
+                {t('nav.welcome')}, <span className="text-text font-bold">{user?.name}</span> ({user?.role})
               </span>
               <Button
                 as={Link}
@@ -53,7 +57,7 @@ const Layout = () => {
                 className="gap-1.5"
                 leftIcon={<LayoutDashboard className="w-4 h-4" />}
               >
-                Dashboard
+                {t('nav.dashboard')}
               </Button>
               <Button
                 variant="outline"
@@ -62,16 +66,17 @@ const Layout = () => {
                 className="border-red-500/20 text-red-400 hover:bg-red-500/10 hover:border-red-500/30 gap-1.5"
                 leftIcon={<LogOut className="w-4 h-4" />}
               >
-                <span className="hidden sm:inline">Sign Out</span>
+                <span className="hidden sm:inline">{t('nav.signOut')}</span>
               </Button>
             </div>
           ) : (
             <div className="flex items-center gap-3">
+              <LanguageSelector />
               <Button as={Link} to="/login" variant="outline" size="sm">
-                Sign In
+                {t('nav.signIn')}
               </Button>
               <Button as={Link} to="/register" variant="primary" size="sm">
-                Get Started
+                {t('hero.getStarted')}
               </Button>
             </div>
           )
@@ -86,9 +91,9 @@ const Layout = () => {
       {/* Footer */}
       <Footer
         links={[
-          { label: 'Marketplace', to: '/marketplace' },
-          { label: 'Rentals', to: '/rentals' },
-          { label: 'Forum', to: '/forum' },
+          { label: t('nav.marketplace'), to: '/marketplace' },
+          { label: t('nav.equipment'), to: '/rentals' },
+          { label: t('sidebar.community'), to: '/#community' },
         ]}
       />
     </div>

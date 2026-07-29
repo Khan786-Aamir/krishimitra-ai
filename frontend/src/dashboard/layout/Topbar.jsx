@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import LanguageSelector from '../../components/LanguageSelector';
 import {
   Sun,
   Moon,
@@ -154,6 +155,7 @@ export const Topbar = ({
 
       {/* Right Area: Theme, Notification panel, Profile dropdown */}
       <div className="flex items-center gap-2 sm:gap-3">
+        <LanguageSelector />
         {/* Dark Mode toggle */}
         <button
           onClick={toggleTheme}

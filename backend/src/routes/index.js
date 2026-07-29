@@ -25,5 +25,7 @@ router.use('/admin', require('./admin'));
 router.use('/marketplace', require('./marketplace'));
 router.use('/equipment', require('./equipment'));
 router.use('/ai', require('./ai'));
+router.use('/upload', require('./upload'));
+router.use('/public', require('./public'));
 
 module.exports = router;

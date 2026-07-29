@@ -94,3 +94,62 @@
   background: var(--color-primary-dark);
 }
 
+/* Authentication Pages Theme and Input Visibility Overrides */
+.bg-background-dark {
+  background-color: var(--color-background) !important;
+}
+
+.bg-card-dark {
+  background-color: var(--color-surface) !important;
+}
+
+.border-border-dark {
+  border-color: var(--color-border) !important;
+}
+
+/* Auth Input text and caret styling */
+input.bg-background-dark,
+select.bg-background-dark {
+  color: var(--color-text) !important;
+  caret-color: var(--color-primary) !important;
+}
+
+/* Placeholder styles */
+input.bg-background-dark::placeholder,
+select.bg-background-dark::placeholder {
+  color: var(--color-text-muted) !important;
+  opacity: 0.6 !important;
+}
+
+/* Webkit Autofill visibility adjustments */
+input.bg-background-dark:-webkit-autofill,
+input.bg-background-dark:-webkit-autofill:hover,
+input.bg-background-dark:-webkit-autofill:focus,
+input.bg-background-dark:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--color-text) !important;
+  -webkit-box-shadow: 0 0 0 30px var(--color-background) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Text selection visibility rules */
+input.bg-background-dark::selection {
+  background-color: rgba(34, 197, 94, 0.25) !important;
+  color: var(--color-text) !important;
+}
+
+/* Focus borders and rings */
+input.bg-background-dark:focus,
+select.bg-background-dark:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2) !important;
+}
+
+/* Disabled state readability rules */
+input.bg-background-dark:disabled,
+select.bg-background-dark:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-muted) !important;
+}
+

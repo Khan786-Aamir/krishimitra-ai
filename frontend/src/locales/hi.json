@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "features": "विशेषताएं",
+    "marketplace": "मार्केटप्लेस",
+    "equipment": "उपकरण",
+    "aiPlatform": "एआई प्लेटफॉर्म",
+    "about": "हमारे बारे में",
+    "faq": "पूछे जाने वाले प्रश्न",
+    "dashboard": "डैशबोर्ड",
+    "signIn": "लॉग इन करें",
+    "signOut": "साइन आउट",
+    "welcome": "स्वागत है"
+  },
+  "hero": {
+    "tagline": "अगली पीढ़ी की कृषि",
+    "title_start": "हर किसान को ",
+    "title_end": "एआई से सशक्त बनाना",
+    "subtitle": "स्मार्ट खेती • डिजिटल मार्केटप्लेस • उपकरण किराया • एआई फसल निदान • विशेषज्ञ सलाह",
+    "quote": "जहां तकनीक परंपरा से मिलती है, हर फसल स्मार्ट बनती है।",
+    "getStarted": "मुफ्त में शुरू करें",
+    "explore": "प्लेटफॉर्म देखें"
+  },
+  "sidebar": {
+    "home": "होम",
+    "crops": "फसलें",
+    "ai": "एआई सहायक",
+    "marketplace": "मार्केटप्लेस",
+    "equipment": "किराया",
+    "weather": "मौसम",
+    "schemes": "योजनाएं",
+    "community": "समुदाय",
+    "analytics": "एनालिटिक्स",
+    "profile": "प्रोफ़ाइल",
+    "settings": "सेटिंग्स",
+    "browseCrops": "फसलें ब्राउज़ करें",
+    "farmers": "किसान",
+    "wishlist": "इच्छासूची",
+    "orders": "आदेश",
+    "marketPrices": "बाज़ार की कीमतें",
+    "reviews": "समीक्षाएँ",
+    "consultations": "परामर्श",
+    "appointments": "अपॉइंटमेंट",
+    "knowledgeHub": "ज्ञान केंद्र",
+    "users": "उपयोगकर्ता",
+    "buyers": "खरीदार",
+    "experts": "विशेषज्ञ",
+    "equipmentRentals": "उपकरण किराया",
+    "aiReports": "एआई रिपोर्ट"
+  },
+  "comingSoon": {
+    "comingBadge": "संस्करण 2.0 में आ रहा है",
+    "title": "जल्द आ रहा है",
+    "page": "पेज",
+    "notifyMe": "मुझे सूचित करें",
+    "developmentToast": "यह मॉड्यूल वर्तमान में विकास के अधीन है।"
+  },
+  "buttons": {
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "submit": "जमा करें"
+  }
+}

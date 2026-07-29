@@ -19,6 +19,7 @@ export { Select } from './forms/Select';
 export { Checkbox } from './forms/Checkbox';
 export { Radio } from './forms/Radio';
 export { Toggle } from './forms/Toggle';
+export { ImageUpload } from './forms/ImageUpload';
 
 // Cards
 export { Card, FeatureCard, ProfileCard, StatisticCard } from './cards/Card';

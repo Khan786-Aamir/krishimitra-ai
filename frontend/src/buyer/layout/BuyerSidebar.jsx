@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard,
   Search,
@@ -26,20 +27,21 @@ export const BuyerSidebar = ({
   setIsCollapsed,
   className = ''
 }) => {
+  const { t } = useTranslation();
   const location = useLocation();
 
   const menuItems = [
-    { label: 'Dashboard', to: '/buyer', icon: <LayoutDashboard className="w-5 h-5" /> },
-    { label: 'AI Assistant', to: '/assistant', icon: <Bot className="w-5 h-5" /> },
-    { label: 'Browse Crops', to: '/marketplace/browse', icon: <Search className="w-5 h-5" /> },
-    { label: 'Farmers', to: '/buyer/farmers', icon: <Users className="w-5 h-5" /> },
-    { label: 'Wishlist', to: '/marketplace/wishlist', icon: <Heart className="w-5 h-5" /> },
-    { label: 'Orders', to: '/buyer/orders', icon: <ShoppingBag className="w-5 h-5" /> },
-    { label: 'Market Prices', to: '/buyer/market-prices', icon: <TrendingUp className="w-5 h-5" /> },
-    { label: 'Community', to: '/buyer/community', icon: <MessageSquare className="w-5 h-5" /> },
-    { label: 'Analytics', to: '/buyer/analytics', icon: <BarChart3 className="w-5 h-5" /> },
-    { label: 'Profile', to: '/buyer/profile', icon: <User className="w-5 h-5" /> },
-    { label: 'Settings', to: '/buyer/settings', icon: <Settings className="w-5 h-5" /> }
+    { label: t('sidebar.home'), to: '/buyer', icon: <LayoutDashboard className="w-5 h-5" /> },
+    { label: t('sidebar.ai'), to: '/assistant', icon: <Bot className="w-5 h-5" /> },
+    { label: t('sidebar.browseCrops'), to: '/marketplace/browse', icon: <Search className="w-5 h-5" /> },
+    { label: t('sidebar.farmers'), to: '/buyer/farmers', icon: <Users className="w-5 h-5" /> },
+    { label: t('sidebar.wishlist'), to: '/marketplace/wishlist', icon: <Heart className="w-5 h-5" /> },
+    { label: t('sidebar.orders'), to: '/buyer/orders', icon: <ShoppingBag className="w-5 h-5" /> },
+    { label: t('sidebar.marketPrices'), to: '/buyer/market-prices', icon: <TrendingUp className="w-5 h-5" /> },
+    { label: t('sidebar.community'), to: '/buyer/community', icon: <MessageSquare className="w-5 h-5" /> },
+    { label: t('sidebar.analytics'), to: '/buyer/analytics', icon: <BarChart3 className="w-5 h-5" /> },
+    { label: t('sidebar.profile'), to: '/buyer/profile', icon: <User className="w-5 h-5" /> },
+    { label: t('sidebar.settings'), to: '/buyer/settings', icon: <Settings className="w-5 h-5" /> }
   ];
 
   return (
@@ -123,10 +125,10 @@ export const BuyerSidebar = ({
           className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold border border-red-500/10 hover:border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-red-400 transition-all cursor-pointer ${
             isCollapsed ? 'justify-center px-0' : ''
           }`}
-          title={isCollapsed ? 'Log Out' : undefined}
+          title={isCollapsed ? t('nav.signOut') : undefined}
         >
           <LogOut className="w-4 h-4 shrink-0" />
-          {!isCollapsed && <span>Logout</span>}
+          {!isCollapsed && <span>{t('nav.signOut')}</span>}
         </button>
       </div>
     </aside>
