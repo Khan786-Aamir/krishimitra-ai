@@ -13,7 +13,8 @@ import {
   BarChart,
   LogOut,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Bot
 } from 'lucide-react';
 import { Logo } from '../../components/ui';
 
@@ -32,6 +33,7 @@ export const Sidebar = ({
 
   const menuItems = [
     { label: 'Rental Home', to: '/rentals', icon: <Home className="w-5 h-5" /> },
+    { label: 'AI Assistant', to: '/assistant', icon: <Bot className="w-5 h-5" /> },
     { label: 'Browse Machinery', to: '/rentals/browse', icon: <Search className="w-5 h-5" /> },
     { label: 'Categories', to: '/rentals/categories', icon: <Grid className="w-5 h-5" /> },
     ...(canLend ? [

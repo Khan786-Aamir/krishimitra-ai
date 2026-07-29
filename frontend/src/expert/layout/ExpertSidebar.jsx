@@ -14,7 +14,8 @@ import {
   Settings,
   LogOut,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Bot
 } from 'lucide-react';
 import { Logo } from '../../components/ui';
 
@@ -29,6 +30,7 @@ export const ExpertSidebar = ({
 
   const menuItems = [
     { label: 'Dashboard', to: '/expert', icon: <LayoutDashboard className="w-5 h-5" /> },
+    { label: 'AI Assistant', to: '/assistant', icon: <Bot className="w-5 h-5" /> },
     { label: 'AI Diagnosis Reviews', to: '/expert/reviews', icon: <Stethoscope className="w-5 h-5" /> },
     { label: 'Consultations', to: '/expert/consultations', icon: <MessageSquare className="w-5 h-5" /> },
     { label: 'Appointments', to: '/expert/appointments', icon: <Calendar className="w-5 h-5" /> },

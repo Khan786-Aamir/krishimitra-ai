@@ -13,7 +13,8 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
-  LayoutDashboard
+  LayoutDashboard,
+  Bot
 } from 'lucide-react';
 import { Logo } from '../../components/ui';
 
@@ -31,6 +32,7 @@ export const Sidebar = ({
 
   const menuItems = [
     { label: 'Marketplace Home', to: '/marketplace', icon: <Home className="w-5 h-5" /> },
+    { label: 'AI Assistant', to: '/assistant', icon: <Bot className="w-5 h-5" /> },
     { label: 'Browse Crops', to: '/marketplace/browse', icon: <Search className="w-5 h-5" /> },
     { label: 'Categories', to: '/marketplace/categories', icon: <Grid className="w-5 h-5" /> },
     ...(isFarmer ? [

@@ -16,7 +16,8 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  ShieldCheck
+  ShieldCheck,
+  Bot
 } from 'lucide-react';
 import { Logo } from '../../components/ui';
 
@@ -31,6 +32,7 @@ export const Sidebar = ({
 
   const menuItems = [
     { label: 'Dashboard', to: '/admin', icon: <LayoutDashboard className="w-5 h-5" /> },
+    { label: 'AI Assistant', to: '/assistant', icon: <Bot className="w-5 h-5" /> },
     { label: 'Users', to: '/admin/users', icon: <Users className="w-5 h-5" /> },
     { label: 'Farmers', to: '/admin/farmers', icon: <Sprout className="w-5 h-5" /> },
     { label: 'Buyers', to: '/admin/buyers', icon: <ShoppingBag className="w-5 h-5" /> },

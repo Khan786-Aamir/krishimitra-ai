@@ -14,7 +14,8 @@ import {
   Settings,
   LogOut,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Bot
 } from 'lucide-react';
 import { Logo } from '../../components/ui';
 
@@ -29,6 +30,7 @@ export const BuyerSidebar = ({
 
   const menuItems = [
     { label: 'Dashboard', to: '/buyer', icon: <LayoutDashboard className="w-5 h-5" /> },
+    { label: 'AI Assistant', to: '/assistant', icon: <Bot className="w-5 h-5" /> },
     { label: 'Browse Crops', to: '/marketplace/browse', icon: <Search className="w-5 h-5" /> },
     { label: 'Farmers', to: '/buyer/farmers', icon: <Users className="w-5 h-5" /> },
     { label: 'Wishlist', to: '/marketplace/wishlist', icon: <Heart className="w-5 h-5" /> },

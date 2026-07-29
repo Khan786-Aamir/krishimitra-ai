@@ -56,6 +56,13 @@ import {
   OwnerDashboard
 } from './rentals/pages';
 
+import AssistantLayout from './assistant/layout/AssistantLayout';
+import {
+  AssistantHome,
+  SavedConversations,
+  AISuggestions
+} from './assistant/pages';
+
 // Import Farmer Dashboard components and layout
 import DashboardLayout from './dashboard/layout/DashboardLayout';
 import {
@@ -326,7 +333,7 @@ const App = () => {
               <Route path="farmer" element={<DashboardLayout />}>
                 <Route index element={<DashboardHome />} />
                 <Route path="crops" element={<MyCrops />} />
-                <Route path="ai" element={<AIDiseasePreview />} />
+                <Route path="ai" element={<Navigate to="/assistant" replace />} />
                 <Route path="marketplace" element={<Navigate to="/marketplace" replace />} />
                 <Route path="equipment" element={<Navigate to="/rentals" replace />} />
                 <Route path="weather" element={<WeatherPage />} />
@@ -408,6 +415,13 @@ const App = () => {
                 <Route path="my-rentals" element={<MyRentals />} />
                 <Route path="saved" element={<SavedEquipment />} />
                 <Route path="owner-dashboard" element={<OwnerDashboard />} />
+              </Route>
+
+              {/* AI Assistant Dashboard with custom full-bleed layout */}
+              <Route path="assistant" element={<AssistantLayout />}>
+                <Route index element={<AssistantHome />} />
+                <Route path="saved" element={<SavedConversations />} />
+                <Route path="suggestions" element={<AISuggestions />} />
               </Route>
             </Route>
           </Routes>

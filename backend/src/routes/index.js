@@ -24,5 +24,6 @@ router.use('/notifications', require('./notifications'));
 router.use('/admin', require('./admin'));
 router.use('/marketplace', require('./marketplace'));
 router.use('/equipment', require('./equipment'));
+router.use('/ai', require('./ai'));
 
 module.exports = router;
