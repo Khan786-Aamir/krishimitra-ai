@@ -132,8 +132,8 @@ exports.createEquipment = asyncHandler(async (req, res, next) => {
 
   // Auto-fill owner and set verification status
   req.body.owner = req.user.id;
-  req.body.status = 'Pending';
-  req.body.isApproved = false;
+  req.body.status = 'Approved';
+  req.body.isApproved = true;
 
   const equipment = await Equipment.create(req.body);
 
@@ -158,10 +158,10 @@ exports.updateEquipment = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse('Not authorized to modify this listing', 403));
   }
 
-  // Enforce re-verification if listing is updated by owner
+  // Auto-approve / keep active if listing is updated by owner
   if (req.user.role !== 'Admin') {
-    req.body.status = 'Pending';
-    req.body.isApproved = false;
+    req.body.status = 'Approved';
+    req.body.isApproved = true;
   }
 
   equipment = await Equipment.findByIdAndUpdate(req.params.id, req.body, {

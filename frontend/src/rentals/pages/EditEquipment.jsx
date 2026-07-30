@@ -160,7 +160,7 @@ export const EditEquipment = () => {
       setLoading(true);
       const res = await equipmentService.updateEquipment(id, payload);
       if (res.success) {
-        addToast('Machinery listing updated successfully! Pending admin approval.', 'success');
+        addToast('Machinery listing updated successfully!', 'success');
         navigate('/rentals/my-equipment');
       }
     } catch (err) {

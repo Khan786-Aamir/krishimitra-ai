@@ -112,7 +112,7 @@ export const AddEquipment = () => {
       setLoading(true);
       const res = await equipmentService.createEquipment(payload);
       if (res.success) {
-        addToast('Machinery listing created successfully! Pending admin approval.', 'success');
+        addToast('Machinery listing created successfully!', 'success');
         navigate('/rentals/my-equipment');
       }
     } catch (err) {
