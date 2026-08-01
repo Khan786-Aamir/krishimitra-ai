@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 
 export const Input = forwardRef(({
   label,
+  labelClassName = '',
   error,
   leftIcon,
   rightIcon,
@@ -12,7 +13,7 @@ export const Input = forwardRef(({
   return (
     <div className="w-full">
       {label && (
-        <label htmlFor={id} className="block text-xs font-semibold uppercase tracking-wider text-text/60 mb-2 select-none">
+        <label htmlFor={id} className={`block text-xs font-semibold uppercase tracking-wider text-text/60 mb-2 select-none ${labelClassName}`}>
           {label}
         </label>
       )}

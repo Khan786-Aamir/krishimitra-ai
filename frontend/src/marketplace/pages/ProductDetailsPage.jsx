@@ -5,13 +5,15 @@ import {
   Layers, Database, Truck, Inbox, Phone, CheckCircle 
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
 import marketplaceService from '../../services/marketplaceService';
-import { Button, Modal, Input, Textarea, Badge } from '../../components/ui';
+import { Button, Modal, Input, Textarea, Badge, Select } from '../../components/ui';
 
 export const ProductDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { showToast } = useToast();
   
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -98,6 +100,7 @@ export const ProductDetailsPage = () => {
       }, 2000);
     } catch (err) {
       console.error(err);
+      showToast(err?.error?.message || err?.message || 'Failed to submit inquiry', 'error');
     }
   };
 
@@ -308,6 +311,7 @@ export const ProductDetailsPage = () => {
             <div className="grid grid-cols-3 gap-4">
               <Input
                 label={`Required Qty (units)`}
+                labelClassName="min-h-[32px] flex items-end"
                 type="number"
                 value={requiredQuantity}
                 onChange={(e) => setRequiredQuantity(e.target.value)}
@@ -316,23 +320,22 @@ export const ProductDetailsPage = () => {
               />
               <Input
                 label={`Expected Price (${product.unit})`}
+                labelClassName="min-h-[32px] flex items-end"
                 type="number"
                 value={expectedPrice}
                 onChange={(e) => setExpectedPrice(e.target.value)}
                 required
               />
-              <div className="flex flex-col gap-1.5">
-                <label className="text-gray-400 font-bold uppercase tracking-wider text-[10px]">Inquiry Type</label>
-                <select
-                  value={inquiryType}
-                  onChange={(e) => setInquiryType(e.target.value)}
-                  className="w-full bg-surface border border-border rounded-xl text-sm py-2 px-3 text-text focus:outline-none focus:border-primary/50"
-                >
-                  <option value="Regular Purchase">Regular Purchase</option>
-                  <option value="Bulk Purchase">Bulk Purchase</option>
-                  <option value="Urgent Requirement">Urgent Requirement</option>
-                </select>
-              </div>
+              <Select
+                label="Inquiry Type"
+                labelClassName="min-h-[32px] flex items-end"
+                value={inquiryType}
+                onChange={(e) => setInquiryType(e.target.value)}
+              >
+                <option value="Regular Purchase">Regular Purchase</option>
+                <option value="Bulk Purchase">Bulk Purchase</option>
+                <option value="Urgent Requirement">Urgent Requirement</option>
+              </Select>
             </div>
 
             <Textarea
