@@ -10,9 +10,25 @@ const app = express();
 
 // Security Middlewares
 app.use(helmet());
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://krishimitra-ai-dv7d.onrender.com'
+];
+
+if (process.env.CORS_ORIGIN) {
+  const origins = process.env.CORS_ORIGIN.split(',').map(o => o.trim());
+  origins.forEach(origin => {
+    if (origin && !allowedOrigins.includes(origin)) {
+      allowedOrigins.push(origin);
+    }
+  });
+}
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
-  credentials: true
+  origin: allowedOrigins,
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
 
 // Logging Middleware
